@@ -28,10 +28,10 @@ web_root: /var/www/html
 
 Dependencies
 ------------
-
+````
 mrlesmithjr.apache2
 mrlesmithjr.mariadb-mysql
-
+````
 
 Example Playbook
 ----------------
