@@ -8,7 +8,7 @@
     - php5-gmp
     - php-pear
     - php5-mysql
-    - php5-mysqlnd
+#    - php5-mysqlnd
     - php5-ldap
     - php5-mcrypt
     - php5-curl
@@ -70,7 +70,7 @@
 
 - name: debian | importing phpipam database
   mysql_db: name={{ phpipam_db_name }} state=import target=/tmp/phpipam_schema.sql
-  when: phpipam_db_imported.stat.exists != True and not clustered_mysql_backend
+  when: not phpipam_primary and not phpipam_db_imported.stat.exists and not clustered_mysql_backend
 
 - name: debian | importing phpipam database
   mysql_db: name={{ phpipam_db_name }} state=import target=/tmp/phpipam_schema.sql
