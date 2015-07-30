@@ -9,6 +9,6 @@ phpipam_db_name: phpipam  #define db name
 phpipam_db_pass: []  #define db password or define in group_vars/group
 phpipam_db_user: []  #define db user or define in group_vars/group
 phpipam_download: http://sourceforge.net/projects/phpipam/files/latest/download
-phpipam_primary: false  #define if using a clustered mariadb mysql
+phpipam_primary: false  #define if using a clustered mariadb mysql and define a single node as primary in host_vars/host
 phpipam_root: '{{ web_root }}/phpipam'
 web_root: /var/www/html
