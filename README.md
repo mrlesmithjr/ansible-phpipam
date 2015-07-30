@@ -29,7 +29,7 @@ Dependencies
 ------------
 
 mrlesmithjr.apache2
-mrlesmithjr.mardiadb-mysql
+mrlesmithjr.mariadb-mysql
 
 
 Example Playbook
