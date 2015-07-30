@@ -12,6 +12,7 @@ Role Variables
 --------------
 
 ````
+clustered_mysql_backend: false  #defines if mysql backend is clustered
 patch_discovery: true  #defines if current discovery functionality should be patched
 patch_email: true  #defines if current email test functionality should be patched
 phpipam_base: /phpipam/

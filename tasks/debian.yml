@@ -36,7 +36,7 @@
 
 - name: debian | creating phpipam db
   mysql_db: name={{ phpipam_db_name }} state=present
-  when: not phpipam_primary and not clustered_mysql_backend
+  when: not clustered_mysql_backend
 
 - name: debian | creating phpipam db
   mysql_db: name={{ phpipam_db_name }} state=present
@@ -44,7 +44,7 @@
 
 - name: debian | creating phpipam user
   mysql_user: name={{ phpipam_db_user }} password={{ phpipam_db_pass }} priv={{ phpipam_db_name }}.*:ALL state=present
-  when: not phpipam_primary and not clustered_mysql_backend
+  when: not clustered_mysql_backend
 
 - name: debian | creating phpipam user
   mysql_user: name={{ phpipam_db_user }} password={{ phpipam_db_pass }} priv={{ phpipam_db_name }}.*:ALL state=present
@@ -53,7 +53,7 @@
 - name: debian | checking if phpipam db already imported
   stat: path=/var/log/phpipam_db_imported
   register: phpipam_db_imported
-  when: not phpipam_primary and not clustered_mysql_backend
+  when: not clustered_mysql_backend
 
 - name: debian | checking if phpipam db already imported
   stat: path=/var/log/phpipam_db_imported
@@ -62,7 +62,7 @@
 
 - name: debian | copying db schema
   template: src=phpipam_schema.sql.j2 dest=/tmp/phpipam_schema.sql
-  when: not phpipam_primary and not clustered_mysql_backend
+  when: not clustered_mysql_backend
 
 - name: debian | copying db schema
   template: src=phpipam_schema.sql.j2 dest=/tmp/phpipam_schema.sql
@@ -70,7 +70,7 @@
 
 - name: debian | importing phpipam database
   mysql_db: name={{ phpipam_db_name }} state=import target=/tmp/phpipam_schema.sql
-  when: not phpipam_primary and phpipam_db_imported.stat.exists != True and not clustered_mysql_backend
+  when: phpipam_db_imported.stat.exists != True and not clustered_mysql_backend
 
 - name: debian | importing phpipam database
   mysql_db: name={{ phpipam_db_name }} state=import target=/tmp/phpipam_schema.sql
@@ -78,11 +78,7 @@
 
 - name: debian | setting phpipam db imported
   file: path=/var/log/phpipam_db_imported state=touch
-  when: not phpipam_primary and phpipam_db_imported.stat.exists != True and not clustered_mysql_backend
-
-- name: debian | setting phpipam db imported
-  file: path=/var/log/phpipam_db_imported state=touch
-  when: phpipam_primary and phpipam_db_imported.stat.exists != True and clustered_mysql_backend
+  when: phpipam_db_imported.stat.exists != True
 
 - name: debian | patching functions-network.php
   template: src=functions-network.php.j2 dest={{ phpipam_root }}/functions/functions-network.php owner=www-data group=www-data
