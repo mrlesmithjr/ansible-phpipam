@@ -40,7 +40,7 @@ Including an example of how to use your role (for instance, with variables passe
     - hosts: servers
       roles:
         - { role: mrlesmithjr.apache2 }
-        - { role: mrlesmithjr.mardiadb-mysql }
+        - { role: mrlesmithjr.mariadb-mysql }
         - { role: mrlesmithjr.phpipam }
 
 License
