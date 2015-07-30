@@ -53,20 +53,9 @@
 - name: debian | checking if phpipam db already imported
   stat: path=/var/log/phpipam_db_imported
   register: phpipam_db_imported
-  when: not clustered_mysql_backend
-
-- name: debian | checking if phpipam db already imported
-  stat: path=/var/log/phpipam_db_imported
-  register: phpipam_db_imported
-  when: phpipam_primary and clustered_mysql_backend
 
 - name: debian | copying db schema
   template: src=phpipam_schema.sql.j2 dest=/tmp/phpipam_schema.sql
-  when: not clustered_mysql_backend
-
-- name: debian | copying db schema
-  template: src=phpipam_schema.sql.j2 dest=/tmp/phpipam_schema.sql
-  when: phpipam_primary and clustered_mysql_backend
 
 - name: debian | importing phpipam database
   mysql_db: name={{ phpipam_db_name }} state=import target=/tmp/phpipam_schema.sql
@@ -74,11 +63,11 @@
 
 - name: debian | importing phpipam database
   mysql_db: name={{ phpipam_db_name }} state=import target=/tmp/phpipam_schema.sql
-  when: phpipam_primary and phpipam_db_imported.stat.exists != True and clustered_mysql_backend
+  when: phpipam_primary and not phpipam_db_imported.stat.exists and clustered_mysql_backend
 
 - name: debian | setting phpipam db imported
   file: path=/var/log/phpipam_db_imported state=touch
-  when: phpipam_db_imported.stat.exists != True
+  when: not phpipam_db_imported.stat.exists
 
 - name: debian | patching functions-network.php
   template: src=functions-network.php.j2 dest={{ phpipam_root }}/functions/functions-network.php owner=www-data group=www-data
