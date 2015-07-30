@@ -1,0 +1,22 @@
+---
+- name: cron | adding cron job for pingCheck
+  cron: name="phpipam pingCheck"
+        job="/usr/bin/php {{ phpipam_root }}/functions/scripts/pingCheck.php"
+        minute="*/15" hour="*" day="*" month="*"
+        user="www-data"
+        cron_file=phpipam_pingCheck
+
+- name: cron | adding cron job for updating IP addresses
+  cron: name="phpipam resolveIP"
+        job="/usr/bin/php {{ phpipam_root }}/functions/scripts/resolveIPaddresses.php"
+        minute="0" hour="*" day="*" month="*"
+        user="www-data"
+        cron_file=phpipam_resolveIP
+
+- name: cron | adding cron job for discoveryCheck
+  cron: name="phpipam discoveryCheck"
+        job="/usr/bin/php {{ phpipam_root }}/functions/scripts/discoveryCheck.php"
+        minute="*/15" hour="*" day="*" month="*"
+        user="www-data"
+        cron_file=phpipam_discoveryCheck
+  when: phpipam_primary
