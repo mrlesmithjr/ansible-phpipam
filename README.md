@@ -12,10 +12,10 @@ Role Variables
 --------------
 
 ````
-clustered_mysql_backend: false  #defines if mysql backend is clustered
 patch_discovery: true  #defines if current discovery functionality should be patched
 patch_email: true  #defines if current email test functionality should be patched
 phpipam_base: /phpipam/
+phpipam_db_cluster: false #defines if backend db for pdns is clustered...define here or in group_vars/group
 phpipam_db_host: localhost  #define db host
 phpipam_db_name: phpipam  #define db name
 phpipam_db_pass: phpipam  #define db password or define in group_vars/group

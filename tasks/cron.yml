@@ -19,7 +19,7 @@
         minute="*/15" hour="*" day="*" month="*"
         user="www-data"
         cron_file=phpipam_discoveryCheck
-  when: phpipam_primary and clustered_mysql_backend
+  when: phpipam_primary and phpipam_db_cluster
 
 - name: cron | adding cron job for discoveryCheck
   cron: name="phpipam discoveryCheck"
@@ -27,4 +27,4 @@
         minute="*/15" hour="*" day="*" month="*"
         user="www-data"
         cron_file=phpipam_discoveryCheck
-  when: not phpipam_primary and not clustered_mysql_backend
+  when: not phpipam_primary and not phpipam_db_cluster
