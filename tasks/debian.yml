@@ -7,8 +7,8 @@
     - php5
     - php5-gmp
     - php-pear
-    - php5-mysql
-#    - php5-mysqlnd
+#    - php5-mysql
+    - php5-mysqlnd
     - php5-ldap
     - php5-mcrypt
     - php5-curl
