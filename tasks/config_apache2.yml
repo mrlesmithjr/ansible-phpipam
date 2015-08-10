@@ -1,0 +1,8 @@
+---
+- name: config_apache2 | creating phpipam web configuration
+  template: src=etc/apache2/sites-available/phpipam.conf.j2 dest=/etc/apache2/sites-available/phpipam.conf owner=root group=root mode=0644
+  register: phpipam_apache2_configured
+
+- name: config_apache2 | enabling phpipam
+  command: a2ensite phpipam.conf
+  when: phpipam_apache2_configured.changed
