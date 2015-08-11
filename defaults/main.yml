@@ -2,7 +2,7 @@
 # defaults file for ansible-phpipam
 patch_discovery: true  #defines if current discovery functionality should be patched
 patch_email: true  #defines if current email test functionality should be patched
-phpipam_base: /phpipam/
+phpipam_base: /phpipam/  #defines root of phpipam web...if using http url headers...change this to '/'
 phpipam_db_cluster: false #defines if backend db for pdns is clustered...define here or in group_vars/group
 phpipam_db_host: localhost  #define db host
 phpipam_db_name: phpipam  #define db name
