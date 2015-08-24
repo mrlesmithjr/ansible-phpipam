@@ -9,6 +9,6 @@
 - include: cron.yml
   tags: [cron]
 
-- include: config_apache2
+- include: config_apache2.yml
   tags: [config_apache2]
   when: phpipam_url_rewrite is defined and phpipam_url_rewrite
