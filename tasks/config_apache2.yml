@@ -8,7 +8,6 @@
   register: phpipam_apache2_configured
 
 - name: config_apache2 | enabling phpipam
-  command: a2ensite phpipam.conf
-  creates: /etc/apache2/sites-enabled/phpipam.conf
+  command: a2ensite phpipam.conf creates=/etc/apache2/sites-enabled/phpipam.conf
   notify: restart apache2
   when: phpipam_apache2_configured.changed
