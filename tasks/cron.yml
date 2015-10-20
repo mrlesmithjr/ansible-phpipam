@@ -20,7 +20,7 @@
         job="/usr/bin/php {{ phpipam_root }}/functions/scripts/dnsCheck.php"
         minute="0" hour="*" day="*" month="*"
         user="www-data"
-        cron_file=phpipam_resolveIP
+        cron_file=phpipam_dnsCheck
         state=present
 
 - name: cron | adding cron job for discoveryCheck
