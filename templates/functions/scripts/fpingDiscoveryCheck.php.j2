@@ -13,7 +13,7 @@ function cidrToRange($cidr) {
   $range.= " ";
   $range.= long2ip((ip2long($cidr[0])) + pow(2, (32 - (int)$cidr[1])) - 1);
   return $range;
-} 
+}
 
 // include required scripts
 require_once( dirname(__FILE__) . '/../functions.php' );
@@ -26,7 +26,7 @@ $email = true;                  //set mail with status diff to admins
 $emailText = false;             //format to send mail via text or html
 $count = 1;                     //number of pings to send
 $numberOfThreads = 3;           //number of threads to run
-$fpingPath = '/usr/sbin/fping'; //path to fping
+$fpingPath = '{{ fping_path.stdout }}'; //path to fping
 
 // test to see if threading is available
 if(!Thread::available())  { $threads = false; } //pcntl php extension required
