@@ -1,4 +1,14 @@
 ---
+# These are only required until newer version of phpIPAM in hopes of fixing php scripts...removing all cron jobs to ensure everything is clean...
+- name: cron | cleaning up old cron jobs
+  file: path=/etc/cron.d/{{ item }} state=absent
+  with_items:
+    - phpipam_discoveryCheck
+    - phpipam_dnsCheck
+    - phpipam_fpingDiscoveryCheck
+    - phpipam_pingCheck
+    - phpipam_resolveIP
+
 - name: cron | adding cron job for pingCheck
   cron: name="phpipam pingCheck"
         job="/usr/bin/php {{ phpipam_root }}/functions/scripts/pingCheck.php"
@@ -23,7 +33,7 @@
         cron_file=phpipam_dnsCheck
         state=present
 
-- name: cron | adding cron job for discoveryCheck
+- name: cron | removing cron job for discoveryCheck
   cron: name="phpipam discoveryCheck"
         job="/usr/bin/php {{ phpipam_root }}/functions/scripts/discoveryCheck.php"
         minute="*/15" hour="*" day="*" month="*"
@@ -32,7 +42,7 @@
         state=absent
   when: phpipam_primary and phpipam_db_cluster
 
-- name: cron | adding cron job for discoveryCheck
+- name: cron | removing cron job for discoveryCheck
   cron: name="phpipam discoveryCheck"
         job="/usr/bin/php {{ phpipam_root }}/functions/scripts/discoveryCheck.php"
         minute="*/15" hour="*" day="*" month="*"
