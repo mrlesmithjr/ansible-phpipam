@@ -5,13 +5,23 @@
         minute="*/15" hour="*" day="*" month="*"
         user="www-data"
         cron_file=phpipam_pingCheck
+        state=present
 
-- name: cron | adding cron job for updating IP addresses
+- name: cron | removing cron job for updating IP addresses (resolveIPaddresses.php)
   cron: name="phpipam resolveIP"
         job="/usr/bin/php {{ phpipam_root }}/functions/scripts/resolveIPaddresses.php"
         minute="0" hour="*" day="*" month="*"
         user="www-data"
         cron_file=phpipam_resolveIP
+        state=absent
+
+- name: cron | adding cron job for updating IP addresses (dnsCheck.php)
+  cron: name="phpipam dnsCheck"
+        job="/usr/bin/php {{ phpipam_root }}/functions/scripts/dnsCheck.php"
+        minute="0" hour="*" day="*" month="*"
+        user="www-data"
+        cron_file=phpipam_resolveIP
+        state=present
 
 - name: cron | adding cron job for discoveryCheck
   cron: name="phpipam discoveryCheck"
@@ -19,6 +29,7 @@
         minute="*/15" hour="*" day="*" month="*"
         user="www-data"
         cron_file=phpipam_discoveryCheck
+        state=present
   when: phpipam_primary and phpipam_db_cluster
 
 - name: cron | adding cron job for discoveryCheck
@@ -27,4 +38,5 @@
         minute="*/15" hour="*" day="*" month="*"
         user="www-data"
         cron_file=phpipam_discoveryCheck
+        state=present
   when: not phpipam_primary and not phpipam_db_cluster

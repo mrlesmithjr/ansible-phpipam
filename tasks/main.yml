@@ -7,8 +7,14 @@
   when: ansible_os_family == "RedHat"
 
 - include: cron.yml
-  tags: [cron]
+  tags:
+    - config_cron
 
 - include: config_apache2.yml
-  tags: [config_apache2]
+  tags:
+    - config_apache2
   when: phpipam_url_rewrite is defined and phpipam_url_rewrite
+
+- include: config_phpipam.yml
+  tags:
+    - config_phpipam
