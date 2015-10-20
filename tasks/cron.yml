@@ -29,7 +29,7 @@
         minute="*/15" hour="*" day="*" month="*"
         user="www-data"
         cron_file=phpipam_discoveryCheck
-        state=present
+        state=absent
   when: phpipam_primary and phpipam_db_cluster
 
 - name: cron | adding cron job for discoveryCheck
@@ -38,5 +38,23 @@
         minute="*/15" hour="*" day="*" month="*"
         user="www-data"
         cron_file=phpipam_discoveryCheck
+        state=absent
+  when: not phpipam_primary and not phpipam_db_cluster
+
+- name: cron | adding cron job for fpingDiscoveryCheck
+  cron: name="phpipam fpingDiscoveryCheck"
+        job="/usr/bin/php {{ phpipam_root }}/functions/scripts/fpingDiscoveryCheck.php"
+        minute="*/15" hour="*" day="*" month="*"
+        user="www-data"
+        cron_file=phpipam_fpingDiscoveryCheck
+        state=present
+  when: phpipam_primary and phpipam_db_cluster
+
+- name: cron | adding cron job for fpingDiscoveryCheck
+  cron: name="phpipam fpingDiscoveryCheck"
+        job="/usr/bin/php {{ phpipam_root }}/functions/scripts/fpingDiscoveryCheck.php"
+        minute="*/15" hour="*" day="*" month="*"
+        user="www-data"
+        cron_file=phpipam_fpingDiscoveryCheck
         state=present
   when: not phpipam_primary and not phpipam_db_cluster

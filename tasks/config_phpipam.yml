@@ -65,3 +65,11 @@
 - name: config_phpipam | adding dnsCheck.php script
   template: src=functions/scripts/dnsCheck.php.j2 dest={{ phpipam_root }}/functions/scripts/dnsCheck.php owner=www-data group=www-data mode=0755
   when: phpipam_patch_discovery is defined and phpipam_patch_discovery
+
+# need to validate this is still needed as versions change
+- name: config_phpipam | adding fpingDiscovery script(s)
+  template: src=functions/scripts/{{ item }}.j2 dest={{ phpipam_root }}/functions/scripts/{{ item }} owner=www-data group=www-data mode=0755
+  with_items:
+    - fpingDiscoveryCheck.php
+    - fpingThread.php
+  when: phpipam_patch_discovery is defined and phpipam_patch_discovery
