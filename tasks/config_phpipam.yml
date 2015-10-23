@@ -70,6 +70,7 @@
 - name: config_phpipam | checking for fping path
   command: which fping
   register: fping_path
+  always_run: true  #allows checks and diffs to pass
 
 # need to validate this is still needed as versions change
 - name: config_phpipam | adding fpingDiscovery script(s)
