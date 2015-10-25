@@ -18,3 +18,8 @@
 - include: config_phpipam.yml
   tags:
     - config_phpipam
+
+- include: backups.yml
+  tags:
+    - phpipam_db_backups
+  when: enable_phpipam_db_backups is defined and enable_phpipam_db_backups

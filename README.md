@@ -14,7 +14,10 @@ Role Variables
 ````
 ---
 # defaults file for ansible-phpipam
+enable_phpipam_db_backups: true
 phpipam_base: /phpipam/  #defines root of phpipam web...if using http url headers...change this to '/'
+phpipam_db_backup_name_prefix: phpipam_bkp
+phpipam_db_backup_root: /backups/db/phpipam
 phpipam_db_cluster: false #defines if backend db for pdns is clustered...define here or in group_vars/group
 phpipam_db_host: localhost  #define db host
 phpipam_db_name: phpipam  #define db name
