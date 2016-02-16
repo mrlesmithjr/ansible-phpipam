@@ -10,6 +10,7 @@ RewriteEngine on
 
 # change rewrite base if not in root
 # RewriteBase /
+RewriteBase {{ phpipam_base }}
 
 # passthroughs
 RewriteRule ^api/.$ - [L]
