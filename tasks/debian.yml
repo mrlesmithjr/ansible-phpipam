@@ -1,6 +1,8 @@
 ---
 - name: debian | installing pre-req packages
-  apt: name={{ item }} state=present
+  apt:
+    name: "{{ item }}"
+    state: present
   with_items:
     - fping
     - libapache2-mod-php5
@@ -20,5 +22,7 @@
   command: php5enmod mcrypt
 
 - name: debian | enabling apache mod_rewrite
-  apache2_module: name=rewrite state=present
+  apache2_module:
+    name: rewrite
+    state: present
   notify: restart apache2
