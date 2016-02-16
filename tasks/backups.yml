@@ -16,7 +16,7 @@
 - name: backups | creating backup cleanup cron job
   cron:
     name: "phpipam DB Backups cleanup"
-    job: "/usr/bin/find {{ phpipam_db_backup_root }}/ -ctime +10 -exec rm {} \;"
+    job: '/usr/bin/find {{ phpipam_db_backup_root }}/ -ctime +10 -exec rm {} \;'
     special_time: daily
     user: root
     cron_file: "phpipam_db_backups_cleanup"
