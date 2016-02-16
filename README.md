@@ -24,8 +24,8 @@ phpipam_db_name: phpipam  #define db name
 phpipam_db_pass: phpipam  #define db password or define in group_vars/group
 phpipam_db_user: phpipam  #define db user or define in group_vars/group
 phpipam_download: http://sourceforge.net/projects/phpipam/files/latest/download
-phpipam_patch_discovery: true  #defines if current discovery functionality should be patched
-phpipam_patch_email: true  #defines if current email test functionality should be patched
+phpipam_patch_discovery: false  #defines if current discovery functionality should be patched
+phpipam_patch_email: false  #defines if current email test functionality should be patched
 phpipam_primary: false  #define if using a clustered mariadb mysql and define a single node as primary in host_vars/host
 phpipam_root: '{{ web_root }}/phpipam'  #defines the root folder of where phpipam is to be installed
 phpipam_url_rewrite: false  #defines if apache2 should be configured for host headers for phpipam...will be configured as phpipam_url
