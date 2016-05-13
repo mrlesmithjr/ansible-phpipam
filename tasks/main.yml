@@ -1,5 +1,8 @@
 ---
 # tasks file for ansible-phpipam
+- include: upgrade.yml
+  when: phpipam_upgrade
+
 - include: debian.yml
   when: ansible_os_family == "Debian"
 
