@@ -10,6 +10,7 @@
     - phpipam_fpingDiscoveryCheck
     - phpipam_pingCheck
     - phpipam_resolveIP
+  when: not phpipam_define_cron_jobs
 
 - name: cron | adding cron job for pingCheck
   cron:
@@ -22,6 +23,7 @@
     user: "www-data"
     cron_file: "phpipam_pingCheck"
     state: present
+  when: phpipam_define_cron_jobs
 
 - name: cron | removing cron job for updating IP addresses (resolveIPaddresses.php)
   cron:
@@ -34,6 +36,7 @@
     user: "www-data"
     cron_file: "phpipam_resolveIP"
     state: absent
+  when: not phpipam_define_cron_jobs
 
 - name: cron | adding cron job for updating IP addresses (dnsCheck.php)
   cron:
@@ -46,6 +49,7 @@
     user: "www-data"
     cron_file: "phpipam_dnsCheck"
     state: present
+  when: phpipam_define_cron_jobs
 
 - name: cron | removing cron job for discoveryCheck
   cron:
@@ -58,7 +62,9 @@
     user: "www-data"
     cron_file: "phpipam_discoveryCheck"
     state: absent
-  when: phpipam_primary and phpipam_db_cluster
+  when: >
+        phpipam_primary and
+        phpipam_db_cluster
 
 - name: cron | removing cron job for discoveryCheck
   cron:
@@ -71,7 +77,9 @@
     user: "www-data"
     cron_file: "phpipam_discoveryCheck"
     state: absent
-  when: not phpipam_primary and not phpipam_db_cluster
+  when: >
+        not phpipam_primary and
+        not phpipam_db_cluster
 
 - name: cron | adding cron job for fpingDiscoveryCheck
   cron:
@@ -84,7 +92,10 @@
     user: "www-data"
     cron_file: "phpipam_fpingDiscoveryCheck"
     state: present
-  when: phpipam_primary and phpipam_db_cluster
+  when: >
+        phpipam_define_cron_jobs and
+        phpipam_primary and
+        phpipam_db_cluster
 
 - name: cron | adding cron job for fpingDiscoveryCheck
   cron:
@@ -97,4 +108,7 @@
     user: "www-data"
     cron_file: "phpipam_fpingDiscoveryCheck"
     state: present
-  when: not phpipam_primary and not phpipam_db_cluster
+  when: >
+        phpipam_define_cron_jobs and
+        not phpipam_primary and
+        not phpipam_db_cluster

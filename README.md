@@ -27,6 +27,7 @@ phpipam_db_host: localhost  #define db host
 phpipam_db_name: phpipam  #define db name
 phpipam_db_pass: phpipam  #define db password or define in group_vars/group
 phpipam_db_user: phpipam  #define db user or define in group_vars/group
+phpipam_define_cron_jobs: false  #defines if cron jobs for scanning and etc. should be defined.
 phpipam_download: http://sourceforge.net/projects/phpipam/files/latest/download
 phpipam_patch_discovery: false  #defines if current discovery functionality should be patched
 phpipam_patch_email: false  #defines if current email test functionality should be patched
