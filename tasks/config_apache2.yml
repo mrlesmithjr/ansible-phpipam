@@ -8,7 +8,7 @@
     mode: 0644
   notify: restart apache2
 
-- name: config_apache2 | enabling php mod extenstions
+- name: config_apache2 | enabling php mod extensions
   command: "php5enmod {{ item }}"
   with_items:
     - json
