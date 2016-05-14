@@ -6,6 +6,7 @@
     owner: root
     group: root
     mode: 0644
+    backup: yes
   notify: restart apache2
 
 - name: config_apache2 | enabling php mod extensions
