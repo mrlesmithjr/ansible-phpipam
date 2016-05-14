@@ -1,12 +1,12 @@
 ---
-- name: config_phpipam | downloading phpipam
+- name: config_phpipam | downloading phpipam {{ phpipam_version }}
   get_url:
     url: "{{ phpipam_download }}"
-    dest: "/tmp/phpipam.tar"
+    dest: "/opt/{{ phpipam_download_file }}"
 
-- name: config_phpipam | extracting phpipam package to web_root
+- name: config_phpipam | extracting phpipam package to {{ web_root }}
   unarchive:
-    src: "/tmp/phpipam.tar"
+    src: "/opt/{{ phpipam_download_file }}"
     dest: "{{ web_root }}"
     copy: no
     owner: www-data
@@ -15,41 +15,47 @@
 
 - name: config_phpipam | creating phpipam web config
   template:
-    src: "config.php.j2"
+    src: "config.php-{{ phpipam_version }}.j2"
     dest: "{{ phpipam_root }}/config.php"
     owner: www-data
     group: www-data
+    backup: yes
 
 - name: config_phpipam | configuring .htacess
   template:
-    src: "htaccess.j2"
+    src: "htaccess-{{ phpipam_version }}.j2"
     dest: "{{ phpipam_root }}/.htaccess"
     owner: root
     group: root
-
-- name: config_phpipam | creating phpipam db
-  mysql_db:
-    name: "{{ phpipam_db_name }}"
-    state: present
-  when: not phpipam_db_cluster
+    backup: yes
 
 - name: config_phpipam | creating phpipam db
   mysql_db:
     name: "{{ phpipam_db_name }}"
     state: present
   when: >
+        phpipam_pre_load_db and
+        not phpipam_db_cluster
+
+- name: config_phpipam | creating phpipam db
+  mysql_db:
+    name: "{{ phpipam_db_name }}"
+    state: present
+  when: >
+        phpipam_pre_load_db and
         phpipam_primary and
         phpipam_db_cluster
 
-- name: config_phpipam | creating phpipam user
+- name: config_phpipam | creating phpipam db user
   mysql_user:
     name: "{{ phpipam_db_user }}"
     password: "{{ phpipam_db_pass }}"
     priv: "{{ phpipam_db_name }}.*:ALL"
     state: present
-  when: not phpipam_db_cluster
+  when: >
+        not phpipam_db_cluster
 
-- name: config_phpipam | creating phpipam user
+- name: config_phpipam | creating phpipam db user
   mysql_user:
     name: "{{ phpipam_db_user }}"
     password: "{{ phpipam_db_pass }}"
@@ -63,11 +69,13 @@
   stat:
     path: "/var/log/phpipam_db_imported"
   register: phpipam_db_imported
+  when: phpipam_pre_load_db
 
 - name: config_phpipam | copying db schema
   template:
-    src: "phpipam_schema.sql.j2"
+    src: "phpipam_schema-{{ phpipam_version }}.sql.j2"
     dest: "/tmp/phpipam_schema.sql"
+  when: phpipam_pre_load_db
 
 - name: config_phpipam | importing phpipam database
   mysql_db:
@@ -75,6 +83,7 @@
     state: import
     target: "/tmp/phpipam_schema.sql"
   when: >
+        phpipam_pre_load_db and
         not phpipam_primary and
         not phpipam_db_imported.stat.exists and
         not phpipam_db_cluster
@@ -85,6 +94,7 @@
     state: import
     target: "/tmp/phpipam_schema.sql"
   when: >
+        phpipam_pre_load_db and
         phpipam_primary and
         not phpipam_db_imported.stat.exists and
         phpipam_db_cluster
@@ -93,7 +103,9 @@
   file:
     path: "/var/log/phpipam_db_imported"
     state: touch
-  when: not phpipam_db_imported.stat.exists
+  when: >
+        phpipam_pre_load_db and
+        not phpipam_db_imported.stat.exists
 
 # need to validate this is still needed as versions change
 - name: config_phpipam | patching functions-network.php
