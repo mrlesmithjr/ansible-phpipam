@@ -9,16 +9,16 @@
     src: "/opt/{{ phpipam_download_file }}"
     dest: "{{ web_root }}"
     copy: no
-    owner: www-data
-    group: www-data
+    owner: "{{ web_owner }}"
+    group: "{{ web_group }}"
     creates: "{{ phpipam_root }}/config.php"
 
 - name: config_phpipam | creating phpipam web config
   template:
     src: "config.php-{{ phpipam_version }}.j2"
     dest: "{{ phpipam_root }}/config.php"
-    owner: www-data
-    group: www-data
+    owner: "{{ web_owner }}"
+    group: "{{ web_group }}"
     backup: yes
 
 - name: config_phpipam | configuring .htacess
@@ -112,8 +112,8 @@
   template:
     src: "functions/functions-network.php.j2"
     dest: "{{ phpipam_root }}/functions/functions-network.php"
-    owner: www-data
-    group: www-data
+    owner: "{{ web_owner }}"
+    group: "{{ web_group }}"
   when: >
         phpipam_patch_discovery is defined and
         phpipam_patch_discovery
@@ -123,8 +123,8 @@
   template:
     src: "functions/functions-mail.php.j2"
     dest: "{{ phpipam_root }}/functions/functions-mail.php"
-    owner: www-data
-    group: www-data
+    owner: "{{ web_owner }}"
+    group: "{{ web_group }}"
   when: >
         phpipam_patch_email is defined and
         phpipam_patch_email
@@ -134,8 +134,8 @@
   template:
     src: "site/admin/mailSettingsTestMail.php.j2"
     dest: "{{ phpipam_root }}/site/admin/mailSettingsTestMail.php"
-    owner: www-data
-    group: www-data
+    owner: "{{ web_owner }}"
+    group: "{{ web_group }}"
   when: >
         phpipam_patch_email is defined and
         phpipam_patch_email
@@ -145,8 +145,8 @@
   template:
     src: "functions/scripts/dnsCheck.php.j2"
     dest: "{{ phpipam_root }}/functions/scripts/dnsCheck.php"
-    owner: www-data
-    group: www-data
+    owner: "{{ web_owner }}"
+    group: "{{ web_group }}"
     mode: 0755
   when: >
         phpipam_patch_discovery is defined and
@@ -164,8 +164,8 @@
   template:
     src: "functions/scripts/{{ item }}.j2"
     dest: "{{ phpipam_root }}/functions/scripts/{{ item }}"
-    owner: www-data
-    group: www-data
+    owner: "{{ web_owner }}"
+    group: "{{ web_group }}"
     mode: 0755
   with_items:
     - fpingDiscoveryCheck.php
