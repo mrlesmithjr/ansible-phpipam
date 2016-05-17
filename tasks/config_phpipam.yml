@@ -43,7 +43,7 @@
     state: present
   when: >
         phpipam_pre_load_db and
-        phpipam_primary and
+        inventory_hostname == phpipam_primary and
         phpipam_db_cluster
 
 - name: config_phpipam | creating phpipam db user
@@ -62,7 +62,7 @@
     priv: "{{ phpipam_db_name }}.*:ALL"
     state: present
   when: >
-        phpipam_primary and
+        inventory_hostname == phpipam_primary and
         phpipam_db_cluster
 
 - name: config_phpipam | checking if phpipam db already imported
@@ -84,7 +84,6 @@
     target: "/tmp/phpipam_schema.sql"
   when: >
         phpipam_pre_load_db and
-        not phpipam_primary and
         not phpipam_db_imported.stat.exists and
         not phpipam_db_cluster
 
@@ -95,7 +94,7 @@
     target: "/tmp/phpipam_schema.sql"
   when: >
         phpipam_pre_load_db and
-        phpipam_primary and
+        inventory_hostname == phpipam_primary and
         not phpipam_db_imported.stat.exists and
         phpipam_db_cluster
 

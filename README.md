@@ -34,6 +34,7 @@ phpipam_base: /phpipam/  #defines root of phpipam web...if using http url header
 phpipam_db_backup_name_prefix: phpipam_bkp
 phpipam_db_backup_root: /backups/db/phpipam
 phpipam_db_cluster: false #defines if backend db for pdns is clustered...define here or in group_vars/group
+
 phpipam_db_host: localhost  #define db host
 phpipam_db_name: phpipam  #define db name
 phpipam_db_pass: phpipam  #define db password or define in group_vars/group
@@ -45,8 +46,9 @@ phpipam_patch_discovery: false  #defines if current discovery functionality shou
 phpipam_patch_email: false  #defines if current email test functionality should be patched
 phpipam_pre_load_db: true
 phpipam_prettify_links: true  #defines if Apache2 should be configured in order to enable prettify links
-phpipam_primary: false  #define if using a clustered mariadb mysql and define a single node as primary in host_vars/host
+phpipam_primary: 'node0'  #define if using a clustered mariadb mysql and define a single node as primary
 phpipam_root: '{{ web_root }}/phpipam'  #defines the root folder of where phpipam is to be installed
+phpipam_timezone: 'America/New_York'
 phpipam_upgrade: false  #defines if phpipam is to be upgraded
 phpipam_url: 'ipam.{{ pri_domain_name }}'  #defines the phpipam url to configure apache2 for if configured for url rewrite
 phpipam_version: 1.2.1
