@@ -79,17 +79,18 @@
   register: phpipam_db_imported
   when: phpipam_pre_load_db
 
-- name: config_phpipam | copying db schema
-  template:
-    src: "phpipam_schema-{{ phpipam_version }}.sql.j2"
-    dest: "/tmp/phpipam_schema.sql"
-  when: phpipam_pre_load_db
+# - name: config_phpipam | copying db schema
+#   template:
+#     src: "phpipam_schema-{{ phpipam_version }}.sql.j2"
+#     dest: "/tmp/phpipam_schema.sql"
+#   when: phpipam_pre_load_db
 
 - name: config_phpipam | importing phpipam database
   mysql_db:
     name: "{{ phpipam_db_name }}"
     state: import
-    target: "/tmp/phpipam_schema.sql"
+    # target: "/tmp/phpipam_schema.sql"
+    target: "{{ phpipam_root }}/db/SCHEMA.sql"
   when: >
         phpipam_pre_load_db and
         not phpipam_db_imported.stat.exists and
@@ -99,7 +100,8 @@
   mysql_db:
     name: "{{ phpipam_db_name }}"
     state: import
-    target: "/tmp/phpipam_schema.sql"
+    # target: "/tmp/phpipam_schema.sql"
+    target: "{{ phpipam_root }}/db/SCHEMA.sql"
   when: >
         phpipam_pre_load_db and
         inventory_hostname == phpipam_primary and
