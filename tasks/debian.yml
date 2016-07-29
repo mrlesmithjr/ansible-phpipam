@@ -19,6 +19,12 @@
     - php5-sqlite
     - wget
 
+- name: debian | Installing Git
+  apt:
+    name: "git"
+    state: "present"
+  when: phpipam_install_from_git
+
 - name: debian | enabling php5-mcrypt
   command: php5enmod mcrypt
 
