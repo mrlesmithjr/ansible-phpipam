@@ -182,3 +182,12 @@
   when: >
         phpipam_patch_discovery is defined and
         phpipam_patch_discovery
+
+- name: config_phpipam | Ensuring Permissions Are Correctly Set
+  file:
+    path: "{{ phpipam_root }}"
+    group: "{{ web_group }}"
+    owner: "{{ web_owner }}"
+    state: "directory"
+    recurse: yes
+    
