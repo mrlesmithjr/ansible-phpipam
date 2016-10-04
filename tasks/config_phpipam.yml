@@ -31,7 +31,7 @@
 
 - name: config_phpipam | configuring .htacess
   template:
-    src: "htaccess-{{ phpipam_version }}.j2"
+    src: "htaccess.j2"
     dest: "{{ phpipam_root }}/.htaccess"
     owner: root
     group: root
@@ -190,4 +190,3 @@
     owner: "{{ web_owner }}"
     state: "directory"
     recurse: yes
-    
