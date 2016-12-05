@@ -27,6 +27,7 @@
 
 - name: debian | enabling php mcrypt module
   command: "{{ phpenmod_command }} mcrypt"
+  changed_when: false
 
 - name: debian | enabling apache mod_rewrite
   apache2_module:

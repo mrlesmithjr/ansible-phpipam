@@ -64,7 +64,7 @@ phpipam_root: '{{ web_root }}/phpipam'  #defines the root folder of where phpipa
 phpipam_timezone: 'America/New_York'
 phpipam_upgrade: false  #defines if phpipam is to be upgraded
 phpipam_url: 'ipam.{{ pri_domain_name }}'  #defines the phpipam url to configure apache2 for if configured for url rewrite
-phpipam_version: 1.2.1 # Only used when not installing via GIT.
+phpipam_version: 1.2 # Only used when not installing via GIT. uses github .tar.gz file from https://github.com/phpipam/phpipam/releases
 pri_domain_name: example.org  #defines the primary domain name...define here or globally in group_vars/all
 web_root: /var/www/html
 ````
