@@ -12,6 +12,7 @@
     - 'php{{ php_ver }}-gd'
     - 'php{{ php_ver }}-gmp'
     - 'php-pear'
+    - 'php{{ php_ver }}-mbstring'
     - 'php{{ php_ver }}-mysqlnd'
     - 'php{{ php_ver }}-ldap'
     - 'php{{ php_ver }}-mcrypt'
