@@ -25,7 +25,7 @@
   apt:
     name: "{{ item }}"
     state: present
-  when: not ansible_lsb.major_release|int >= 9 and not ansible_distribution_release == 'trusty'
+  when: not ansible_lsb.major_release|int <= 9 and not ansible_distribution_release == 'trusty'
   with_items:
     - 'php{{ php_ver }}-mbstring'
 
