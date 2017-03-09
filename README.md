@@ -101,7 +101,8 @@ phpipam_url: 'ipam.{{ pri_domain_name }}'
 
 # Define phpipam version
 # Only used when not installing via GIT.
-phpipam_version: '1.2.1'
+# uses github .tar.gz file from https://github.com/phpipam/phpipam/releases
+phpipam_version: '1.2'
 
 # Defines the primary domain name
 pri_domain_name: 'example.org'
