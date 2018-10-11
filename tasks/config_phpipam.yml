@@ -169,7 +169,6 @@
 - name: config_phpipam | checking for fping path
   command: which fping
   register: fping_path
-  always_run: true  #allows checks and diffs to pass
   changed_when: false
 
 # need to validate this is still needed as versions change
