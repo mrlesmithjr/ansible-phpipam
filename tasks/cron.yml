@@ -4,39 +4,42 @@
   file:
     path: "/etc/cron.d/{{ item }}"
     state: absent
+  become: true
   with_items:
-#    - phpipam_discoveryCheck
+    # - phpipam_discoveryCheck
     - phpipam_dnsCheck
     - phpipam_fpingDiscoveryCheck
-#    - phpipam_pingCheck
+    # - phpipam_pingCheck
     - phpipam_resolveIP
 
 - name: cron | adding cron job for discoveryCheck (Non-Clustered DB)
   cron:
-    name: "phpipam discoveryCheck"
+    name: phpipam discoveryCheck
     job: "/usr/bin/php {{ phpipam_root }}/functions/scripts/discoveryCheck.php"
     minute: "*/15"
     hour: "*"
     day: "*"
     month: "*"
     user: "{{ web_owner }}"
-    cron_file: "phpipam_discoveryCheck"
+    cron_file: phpipam_discoveryCheck
     state: present
+  become: true
   when: >
         phpipam_define_cron_jobs and
         not phpipam_db_cluster
 
 - name: cron | adding cron job for discoveryCheck (Clustered DB)
   cron:
-    name: "phpipam discoveryCheck"
+    name: phpipam discoveryCheck
     job: "/usr/bin/php {{ phpipam_root }}/functions/scripts/discoveryCheck.php"
     minute: "*/15"
     hour: "*"
     day: "*"
     month: "*"
     user: "{{ web_owner }}"
-    cron_file: "phpipam_discoveryCheck"
+    cron_file: phpipam_discoveryCheck
     state: present
+  become: true
   when: >
         phpipam_define_cron_jobs and
         (inventory_hostname == phpipam_primary) and
@@ -44,67 +47,72 @@
 
 - name: cron | adding cron job for pingCheck
   cron:
-    name: "phpipam pingCheck"
+    name: phpipam pingCheck
     job: "/usr/bin/php {{ phpipam_root }}/functions/scripts/pingCheck.php"
     minute: "*/15"
     hour: "*"
     day: "*"
     month: "*"
     user: "{{ web_owner }}"
-    cron_file: "phpipam_pingCheck"
+    cron_file: phpipam_pingCheck
     state: present
+  become: true
   when: phpipam_define_cron_jobs
 
 - name: cron | adding cron job for resolveIPaddresses
   cron:
-    name: "phpipam resolveIPaddresses"
+    name: phpipam resolveIPaddresses
     job: "/usr/bin/php {{ phpipam_root }}/functions/scripts/resolveIPaddresses.php"
     minute: "0"
     hour: "*"
     day: "*"
     month: "*"
     user: "{{ web_owner }}"
-    cron_file: "phpipam_resolveIPaddresses"
+    cron_file: phpipam_resolveIPaddresses
     state: present
+  become: true
   when: phpipam_define_cron_jobs
 
 - name: cron | removing cron job for discoveryCheck
   cron:
-    name: "phpipam discoveryCheck"
+    name: phpipam discoveryCheck
     job: "/usr/bin/php {{ phpipam_root }}/functions/scripts/discoveryCheck.php"
     minute: "*/15"
     hour: "*"
     day: "*"
     month: "*"
     user: "{{ web_owner }}"
-    cron_file: "phpipam_discoveryCheck"
+    cron_file: phpipam_discoveryCheck
     state: absent
+  become: true
   when: not phpipam_define_cron_jobs
 
 - name: cron | removing cron job for pingCheck
   cron:
-    name: "phpipam pingCheck"
+    name: phpipam pingCheck
     job: "/usr/bin/php {{ phpipam_root }}/functions/scripts/pingCheck.php"
     minute: "*/15"
     hour: "*"
     day: "*"
     month: "*"
     user: "{{ web_owner }}"
-    cron_file: "phpipam_pingCheck"
+    cron_file: phpipam_pingCheck
     state: absent
+  become: true
   when: not phpipam_define_cron_jobs
 
 - name: cron | removing cron job for resolveIPaddresses
   cron:
-    name: "phpipam resolveIPaddresses"
+    name: phpipam resolveIPaddresses
     job: "/usr/bin/php {{ phpipam_root }}/functions/scripts/resolveIPaddresses.php"
     minute: "0"
     hour: "*"
     day: "*"
     month: "*"
     user: "{{ web_owner }}"
-    cron_file: "phpipam_resolveIPaddresses"
+    cron_file: phpipam_resolveIPaddresses
     state: absent
+  become: true
   when: not phpipam_define_cron_jobs
 
 #- name: cron | adding cron job for updating IP addresses (dnsCheck.php)  #Removed for now as this may not be needed in new version

@@ -6,4 +6,5 @@
 
 - name: upgrade | moving {{ phpipam_root }} directory to {{ phpipam_root }}.{{ date }}
   command: "mv {{ phpipam_root }} {{ phpipam_root }}.{{ date }}"
+  become: true
   when: phpipam_root_check.stat.exists

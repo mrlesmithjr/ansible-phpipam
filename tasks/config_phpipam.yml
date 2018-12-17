@@ -4,6 +4,7 @@
   get_url:
     url: "{{ phpipam_download }}"
     dest: "/opt/{{ phpipam_download_file }}"
+  become: true
   when: not phpipam_install_from_git
 
 # Deprecated as phpipam 1.3.1+ has submodules and it will not install those submodules
@@ -15,8 +16,9 @@
     owner: "{{ web_owner }}"
     group: "{{ web_group }}"
     creates: "{{ phpipam_root }}-{{ phpipam_version }}/config.php"
-  when: not phpipam_install_from_git
+  become: true
   register: extract_phpipam
+  when: not phpipam_install_from_git
 
 # Deprecated as phpipam 1.3.1+ has submodules and it will not install those submodules
 - name: create link to {{ phpipam_root }}-{{ phpipam_version }} on {{ web_root }}
@@ -25,6 +27,7 @@
     src: "{{ phpipam_root }}-{{ phpipam_version }}"
     path: "{{ phpipam_root }}"
     force: yes
+  become: true
   when: extract_phpipam.changed
 
 - name: config_phpipam | installing phpIPAM from git
@@ -32,8 +35,11 @@
     repo: "https://github.com/phpipam/phpipam.git"
     dest: "{{ phpipam_root }}"
     version: "{{ phpipam_install_git_version|default ('HEAD') }}"
-    depth: 1 # Shallow clone
-    recursive: yes # Required as phpipam 1.3.1+ has submodules
+    # Shallow clone
+    depth: 1
+    # Required as phpipam 1.3.1+ has submodules
+    recursive: yes
+  become: true
   when: phpipam_install_from_git
 
 - name: config_phpipam | creating phpipam web config
@@ -43,6 +49,7 @@
     owner: "{{ web_owner }}"
     group: "{{ web_group }}"
     backup: yes
+  become: true
 
 - name: config_phpipam | configuring .htacess
   template:
@@ -51,11 +58,13 @@
     owner: root
     group: root
     backup: yes
+  become: true
 
 - name: config_phpipam | creating phpipam db
   mysql_db:
     name: "{{ phpipam_db_name }}"
     state: present
+  become: true
   when: >
         phpipam_pre_load_db and
         not phpipam_db_cluster
@@ -64,6 +73,7 @@
   mysql_db:
     name: "{{ phpipam_db_name }}"
     state: present
+  become: true
   when: >
         phpipam_pre_load_db and
         phpipam_db_cluster and
@@ -75,6 +85,7 @@
     password: "{{ phpipam_db_pass }}"
     priv: "{{ phpipam_db_name }}.*:ALL"
     state: present
+  become: true
   when: >
         not phpipam_db_cluster
 
@@ -84,6 +95,7 @@
     password: "{{ phpipam_db_pass }}"
     priv: "{{ phpipam_db_name }}.*:ALL"
     state: present
+  become: true
   when: >
         phpipam_db_cluster and
         (inventory_hostname == phpipam_primary)
@@ -95,7 +107,8 @@
            --password={{ phpipam_db_pass }}
            -h {{ phpipam_db_host }}
            -e "show tables from {{ phpipam_db_name }};"
-  register: "phpipam_tables"
+  become: true
+  register: phpipam_tables
   changed_when: false
 
 - name: config_phpipam | importing phpipam database
@@ -103,6 +116,7 @@
     name: "{{ phpipam_db_name }}"
     state: import
     target: "{{ phpipam_root }}/db/SCHEMA.sql"
+  become: true
   when: >
         phpipam_pre_load_db and
         ('ipaddresses' not in phpipam_tables.stdout_lines) and
@@ -114,6 +128,7 @@
     state: import
     # target: "/tmp/phpipam_schema.sql"
     target: "{{ phpipam_root }}/db/SCHEMA.sql"
+  become: true
   when: >
         phpipam_pre_load_db and
         ('ipaddresses' not in phpipam_tables.stdout_lines) and
@@ -127,6 +142,7 @@
     dest: "{{ phpipam_root }}/functions/functions-network.php"
     owner: "{{ web_owner }}"
     group: "{{ web_group }}"
+  become: true
   when: >
         phpipam_patch_discovery is defined and
         phpipam_patch_discovery
@@ -138,6 +154,7 @@
     dest: "{{ phpipam_root }}/functions/functions-mail.php"
     owner: "{{ web_owner }}"
     group: "{{ web_group }}"
+  become: true
   when: >
         phpipam_patch_email is defined and
         phpipam_patch_email
@@ -149,6 +166,7 @@
     dest: "{{ phpipam_root }}/site/admin/mailSettingsTestMail.php"
     owner: "{{ web_owner }}"
     group: "{{ web_group }}"
+  become: true
   when: >
         phpipam_patch_email is defined and
         phpipam_patch_email
@@ -161,6 +179,7 @@
     owner: "{{ web_owner }}"
     group: "{{ web_group }}"
     mode: 0755
+  become: true
   when: >
         phpipam_patch_discovery is defined and
         phpipam_patch_discovery
@@ -179,6 +198,7 @@
     owner: "{{ web_owner }}"
     group: "{{ web_group }}"
     mode: 0755
+  become: true
   with_items:
     - fpingDiscoveryCheck.php
     - fpingThread.php
@@ -193,13 +213,17 @@
     owner: "{{ web_owner }}"
     state: "directory"
     recurse: yes
-  when: phpipam_install_from_git # Only run when is not coming from git
+  become: true
+  # Only run when is not coming from git
+  when: phpipam_install_from_git
 
 - name: config_phpipam | Ensuring Permissions Are Correctly Set
   file:
     path: "{{ phpipam_root }}-{{ phpipam_version }}"
     group: "{{ web_group }}"
     owner: "{{ web_owner }}"
-    state: "directory"
+    state: directory
     recurse: yes
-  when: extract_phpipam.changed and not phpipam_install_from_git # Only run if some version change was done.
+  become: true
+  # Only run if some version change was done.
+  when: extract_phpipam.changed and not phpipam_install_from_git
