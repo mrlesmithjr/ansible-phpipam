@@ -15,7 +15,7 @@
 - name: cron | adding cron job for discoveryCheck (Non-Clustered DB)
   cron:
     name: phpipam discoveryCheck
-    job: "/usr/bin/php {{ phpipam_root }}/functions/scripts/discoveryCheck.php"
+    job: "/usr/bin/php {{ phpipam_install_dir }}/functions/scripts/discoveryCheck.php"
     minute: "*/15"
     hour: "*"
     day: "*"
@@ -31,7 +31,7 @@
 - name: cron | adding cron job for discoveryCheck (Clustered DB)
   cron:
     name: phpipam discoveryCheck
-    job: "/usr/bin/php {{ phpipam_root }}/functions/scripts/discoveryCheck.php"
+    job: "/usr/bin/php {{ phpipam_install_dir }}/functions/scripts/discoveryCheck.php"
     minute: "*/15"
     hour: "*"
     day: "*"
@@ -48,7 +48,7 @@
 - name: cron | adding cron job for pingCheck
   cron:
     name: phpipam pingCheck
-    job: "/usr/bin/php {{ phpipam_root }}/functions/scripts/pingCheck.php"
+    job: "/usr/bin/php {{ phpipam_install_dir }}/functions/scripts/pingCheck.php"
     minute: "*/15"
     hour: "*"
     day: "*"
@@ -62,7 +62,7 @@
 - name: cron | adding cron job for resolveIPaddresses
   cron:
     name: phpipam resolveIPaddresses
-    job: "/usr/bin/php {{ phpipam_root }}/functions/scripts/resolveIPaddresses.php"
+    job: "/usr/bin/php {{ phpipam_install_dir }}/functions/scripts/resolveIPaddresses.php"
     minute: "0"
     hour: "*"
     day: "*"
@@ -76,7 +76,7 @@
 - name: cron | removing cron job for discoveryCheck
   cron:
     name: phpipam discoveryCheck
-    job: "/usr/bin/php {{ phpipam_root }}/functions/scripts/discoveryCheck.php"
+    job: "/usr/bin/php {{ phpipam_install_dir }}/functions/scripts/discoveryCheck.php"
     minute: "*/15"
     hour: "*"
     day: "*"
@@ -90,7 +90,7 @@
 - name: cron | removing cron job for pingCheck
   cron:
     name: phpipam pingCheck
-    job: "/usr/bin/php {{ phpipam_root }}/functions/scripts/pingCheck.php"
+    job: "/usr/bin/php {{ phpipam_install_dir }}/functions/scripts/pingCheck.php"
     minute: "*/15"
     hour: "*"
     day: "*"
@@ -104,7 +104,7 @@
 - name: cron | removing cron job for resolveIPaddresses
   cron:
     name: phpipam resolveIPaddresses
-    job: "/usr/bin/php {{ phpipam_root }}/functions/scripts/resolveIPaddresses.php"
+    job: "/usr/bin/php {{ phpipam_install_dir }}/functions/scripts/resolveIPaddresses.php"
     minute: "0"
     hour: "*"
     day: "*"
@@ -118,7 +118,7 @@
 #- name: cron | adding cron job for updating IP addresses (dnsCheck.php)  #Removed for now as this may not be needed in new version
 #  cron:
 #    name: "phpipam dnsCheck"
-#    job: "/usr/bin/php {{ phpipam_root }}/functions/scripts/dnsCheck.php"
+#    job: "/usr/bin/php {{ phpipam_install_dir }}/functions/scripts/dnsCheck.php"
 #    minute: "0"
 #    hour: "*"
 #    day: "*"
@@ -131,7 +131,7 @@
 #- name: cron | adding cron job for fpingDiscoveryCheck  #Removed for now as this may not be needed in new version
 #  cron:
 #    name: "phpipam fpingDiscoveryCheck"
-#    job: "/usr/bin/php {{ phpipam_root }}/functions/scripts/fpingDiscoveryCheck.php"
+#    job: "/usr/bin/php {{ phpipam_install_dir }}/functions/scripts/fpingDiscoveryCheck.php"
 #    minute: "*/15"
 #    hour: "*"
 #    day: "*"
