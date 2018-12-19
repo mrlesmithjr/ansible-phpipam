@@ -1,6 +1,8 @@
 ---
 - hosts: localhost
   connection: local
+  vars:
+    phpipam_pre_load_db: false
   pre_tasks:
     - name: Installing MySQL
       apt:
