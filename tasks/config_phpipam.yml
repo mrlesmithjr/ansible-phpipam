@@ -94,6 +94,7 @@
   become: true
   register: phpipam_tables
   changed_when: false
+  when: phpipam_pre_load_db
 
 - name: config_phpipam | importing phpipam database
   mysql_db:
