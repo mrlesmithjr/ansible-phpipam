@@ -1,5 +1,6 @@
 ---
-# These are only required until newer version of phpIPAM in hopes of fixing php scripts...removing all cron jobs to ensure everything is clean...
+# These are only required until newer version of phpIPAM in hopes of fixing php scripts
+# removing all cron jobs to ensure everything is clean
 - name: cron | cleaning up old cron jobs
   file:
     path: "/etc/cron.d/{{ item }}"
@@ -115,7 +116,9 @@
   become: true
   when: not phpipam_define_cron_jobs
 
-#- name: cron | adding cron job for updating IP addresses (dnsCheck.php)  #Removed for now as this may not be needed in new version
+
+# Removed for now as this may not be needed in new version
+#- name: cron | adding cron job for updating IP addresses (dnsCheck.php)
 #  cron:
 #    name: "phpipam dnsCheck"
 #    job: "/usr/bin/php {{ phpipam_install_dir }}/functions/scripts/dnsCheck.php"
@@ -128,7 +131,8 @@
 #    state: present
 #  when: phpipam_define_cron_jobs
 
-#- name: cron | adding cron job for fpingDiscoveryCheck  #Removed for now as this may not be needed in new version
+# Removed for now as this may not be needed in new version
+#- name: cron | adding cron job for fpingDiscoveryCheck
 #  cron:
 #    name: "phpipam fpingDiscoveryCheck"
 #    job: "/usr/bin/php {{ phpipam_install_dir }}/functions/scripts/fpingDiscoveryCheck.php"

@@ -4,6 +4,8 @@
     name: "{{ phpipam_debian_packages }}"
     state: present
   become: true
+  register: result
+  until: result is succeeded
 
 # mbstring package is not available on debian 8 or ubuntu 14.04 for php5 is embeded on libapache2-mod-php5
 # http://askubuntu.com/questions/491629/how-to-install-php-mbstring-extension-in-ubuntu/491631
@@ -12,6 +14,8 @@
     name: "php{{ php_ver }}-mbstring"
     state: present
   become: true
+  register: result
+  until: result is succeeded
   when: not ansible_lsb.major_release|int <= 8 and not ansible_distribution_release == 'trusty'
 
 - name: debian | Installing Git
@@ -19,6 +23,8 @@
     name: git
     state: present
   become: true
+  register: result
+  until: result is succeeded
   when: phpipam_install_from_git
 
 - name: debian | enabling php mcrypt module

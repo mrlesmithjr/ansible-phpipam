@@ -4,6 +4,8 @@
     name: "{{ phpipam_redhat_packages }}"
     state: present
   become: true
+  register: result
+  until: result is succeeded
   when: ansible_distribution != "Fedora"
 
 - name: redhat | setting php timezone

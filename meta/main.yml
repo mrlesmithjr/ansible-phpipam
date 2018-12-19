@@ -2,7 +2,7 @@
 galaxy_info:
   author: Larry Smith Jr.
   description: An Ansible role that installs/configures phpIPAM http://phpipam.net/
-  license: license (GPLv2, CC-BY, etc)
+  license: MIT
   min_ansible_version: 1.2
   platforms:
     - name: EL
@@ -17,7 +17,7 @@ galaxy_info:
       versions:
         - jessie
 
-  categories:
+  galaxy_tags:
     - networking
     - system
 

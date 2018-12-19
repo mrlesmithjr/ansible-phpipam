@@ -84,7 +84,7 @@
         phpipam_db_cluster and
         (inventory_hostname == phpipam_primary)
 
-- name: Checking If DB Tables Exist
+- name: config_phpipam | Checking If DB Tables Exist
   command: >
            mysql
            -u {{ phpipam_db_user }}
