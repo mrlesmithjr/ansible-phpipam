@@ -4,6 +4,7 @@
     name: "{{ phpipam_redhat_packages }}"
     state: present
   become: true
+  when: ansible_distribution != "Fedora"
 
 - name: redhat | setting php timezone
   lineinfile:
