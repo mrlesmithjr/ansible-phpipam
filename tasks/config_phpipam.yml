@@ -15,7 +15,7 @@
 - name: config_phpipam | creating phpipam web config
   template:
     src: config.php.j2
-    dest: "{{ phpipam_install_dir }}/config.php"
+    dest: "{{ phpipam_install_dir + '/config.php' }}"
     owner: "{{ web_owner }}"
     group: "{{ web_group }}"
     backup: yes
@@ -24,7 +24,7 @@
 - name: config_phpipam | configuring .htacess
   template:
     src: htaccess.j2
-    dest: "{{ phpipam_install_dir }}/.htaccess"
+    dest: "{{ phpipam_install_dir + '/.htaccess' }}"
     owner: root
     group: root
     backup: yes
