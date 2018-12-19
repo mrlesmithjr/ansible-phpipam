@@ -92,6 +92,7 @@
 - name: Setting RedHat Packages To Install
   set_fact:
     phpipam_redhat_packages:
+      - anacron
       - fping
       - MySQL-python
       - php
