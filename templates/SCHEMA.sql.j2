@@ -224,10 +224,10 @@ CREATE TABLE `settings` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /* insert default values */
-INSERT INTO `settings` (`id`, `siteTitle`, `siteAdminName`, `siteAdminMail`, `siteDomain`, `siteURL`, `domainAuth`, `enableIPrequests`, `enableVRF`, `enableDNSresolving`, `version`, `donate`, `IPfilter`, `vlanDuplicate`, `subnetOrdering`, `visualLimit`, `enablePowerDNS`, `api`, `prettyLinks`)
+INSERT INTO `settings` (`id`, `siteTitle`, `siteAdminName`, `siteAdminMail`, `siteDomain`, `siteURL`, `domainAuth`, `enableIPrequests`, `enableVRF`, `enableDNSresolving`, `version`, `donate`, `IPfilter`, `vlanDuplicate`, `subnetOrdering`, `visualLimit`, `enablePowerDNS`, `api`, `prettyLinks`, `powerDNS`)
 VALUES
-	(1, '{{ phpipam_settings['siteTitle'] }}', '{{ phpipam_settings['siteAdminName'] }}', '{{ phpipam_settings['siteAdminMail'] }}', '{{ phpipam_settings['siteDomain'] }}', '{{ phpipam_settings['siteURL'] }}', {{ phpipam_settings['domainAuth'] }}, {{ phpipam_settings['enableIPrequests'] }}, {{ phpipam_settings['enableVRF'] }}, {{ phpipam_settings['enableDNSresolving'] }}, '{{ phpipam_settings['version'] }}', {{ phpipam_settings['donate'] }}, '{{ phpipam_settings['IPfilter'] }}', {{ phpipam_settings['vlanDuplicate'] }}, '{{ phpipam_settings['subnetOrdering'] }}', {{ phpipam_settings['visualLimit'] }}, {{ phpipam_settings['enablePowerDNS'] }}, {{ phpipam_settings['api'] }}, '{{ phpipam_settings['prettyLinks'] }}');
-
+	(1, '{{ phpipam_settings['siteTitle'] }}', '{{ phpipam_settings['siteAdminName'] }}', '{{ phpipam_settings['siteAdminMail'] }}', '{{ phpipam_settings['siteDomain'] }}', '{{ phpipam_settings['siteURL'] }}', {{ phpipam_settings['domainAuth'] }}, {{ phpipam_settings['enableIPrequests'] }}, {{ phpipam_settings['enableVRF'] }}, {{ phpipam_settings['enableDNSresolving'] }}, '{{ phpipam_settings['version'] }}', {{ phpipam_settings['donate'] }}, '{{ phpipam_settings['IPfilter'] }}', {{ phpipam_settings['vlanDuplicate'] }}, '{{ phpipam_settings['subnetOrdering'] }}', {{ phpipam_settings['visualLimit'] }}, {{ phpipam_settings['enablePowerDNS'] }}, {{ phpipam_settings['api'] }}, '{{ phpipam_settings['prettyLinks'] }}', '{\"host\":\"{{ phpipam_settings['powerDNSdbHost'] }}\",\"name\":\"{{ phpipam_settings['powerDNSname'] }}\",\"username\":\"{{ phpipam_settings['powerDNSdbUsername'] }}\",\"password\":\"{{ phpipam_settings['powerDNSdbPassword'] }}\",\"port\":\"{{ phpipam_settings['powerDNSdbPort'] }}\",\"autoserial\":\"No\",\"ns\":null,\"hostmaster\":null,\"def_ptr_domain\":null,\"refresh\":null,\"retry\":null,\"expire\":null,\"nxdomain_ttl\":null,\"ttl\":null}'
+);
 
 # Dump of table settingsMail
 # ------------------------------------------------------------
@@ -944,5 +944,5 @@ CREATE TABLE `php_sessions` (
 # Dump of table -- for autofix comment, leave as it is
 # ------------------------------------------------------------
 
-UPDATE `settings` SET `version` = "1.4";
-UPDATE `settings` SET `dbversion` = 16;
+UPDATE `settings` SET `version` = "{{ phpipam_settings['version'] }}";
+UPDATE `settings` SET `dbversion` = {{ phpipam_settings['dbVersion'] }};

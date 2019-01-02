@@ -91,6 +91,7 @@ phpipam_primary: node0
 # 0 = disable, 1 = enable
 phpipam_settings:
   api: 0
+  dbVersion: 20
   domainAuth: 0
   donate: 0
   enableDNSresolving: 0
@@ -98,6 +99,11 @@ phpipam_settings:
   enablePowerDNS: "{{ 1 if phpipam_powerdns_integration else 0 }}"
   enableVRF: 0
   IPfilter: mac;owner;state;switch;note;firewallAddressObject
+  powerDNSdbHost: 127.0.0.1
+  powerDNSname: pdns
+  powerDNSdbPassword: pdns
+  powerDNSdbPort: 3306
+  powerDNSdbUsername: pdns
   prettyLinks: "{{ 'Yes' if phpipam_prettify_links else 'No' }}"
   siteAdminMail: "admin@{{ phpipam_domain_name }}"
   siteAdminName: Sysadmin
@@ -108,7 +114,6 @@ phpipam_settings:
   version: 1.4
   visualLimit: 24
   vlanDuplicate: 1
-
 
 phpipam_timezone: America/New_York
 
