@@ -33,7 +33,17 @@
     ansible_distribution_version is version('16.04', '>=') and
     ansible_distribution_version is version('18.04', '<')) or
     (ansible_distribution == "Debian" and
-    ansible_distribution_version is version('9', '>='))
+    ansible_distribution_version is version('9', '=='))
+
+- name: setting PHP version
+  set_fact:
+    phpenmod_command: phpenmod
+    php_path: etc/php/7.3 #no leading / for template path
+    php_sqlite_package: php7.3-sqlite3
+    php_ver: 7.3
+  when:
+    - ansible_distribution == "Debian"
+    - ansible_distribution_version is version('10', '>=')
 
 - name: setting PHP version
   set_fact:
@@ -68,7 +78,8 @@
     ansible_distribution_version is version('14.04', '>=') and
     ansible_distribution_version is version('18.04', '<')) or
     (ansible_distribution == "Debian" and
-    ansible_distribution_version is version('8', '>='))
+    ansible_distribution_version is version('8', '>=') and
+    ansible_distribution_version is version('9', '<='))
 
 - name: Setting Debian Packages To Install
   set_fact:
@@ -87,9 +98,11 @@
       - "php{{ php_ver }}-curl"
       - "{{ php_sqlite_package }}"
       - wget
-  when:
-    - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version is version('18.04', '>=')
+  when: >
+    (ansible_distribution == "Debian" and
+    ansible_distribution_version is version('10', '>=')) or
+    (ansible_distribution == "Ubuntu" and
+    ansible_distribution_version is version('18.04', '>='))
 
 - name: Setting RedHat Packages To Install
   set_fact:
