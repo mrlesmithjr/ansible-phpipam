@@ -1,3 +1,11 @@
+commit 596fbbdfed05094dc6882f5ba6cf758aeacd59bd
+Author: Larry Smith Jr <mrlesmithjr@gmail.com>
+Date:   Mon Apr 6 10:09:41 2020 -0400
+
+    Added git package as pre-req
+    
+    This was missing and causing issues for some distros
+
 commit 2aee1d9e0a5984cb6318df1081c3fd5763b5922d
 Author: Larry Smith Jr <mrlesmithjr@gmail.com>
 Date:   Mon Apr 6 09:30:56 2020 -0400

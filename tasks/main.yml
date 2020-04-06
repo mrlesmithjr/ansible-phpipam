@@ -3,9 +3,7 @@
 - include_tasks: set_facts.yml
 
 - include_tasks: upgrade.yml
-  when: >
-    phpipam_upgrade|bool or
-    phpipam_install_from_git|bool
+  when: phpipam_upgrade|bool
 
 - include_tasks: debian.yml
   when: ansible_os_family == "Debian"
