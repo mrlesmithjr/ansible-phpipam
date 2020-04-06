@@ -1,3 +1,9 @@
+commit f78149d926290172d75e5d0a2e32841dd0c8723f
+Author: Larry Smith Jr <mrlesmithjr@gmail.com>
+Date:   Mon Apr 6 11:21:30 2020 -0400
+
+    Cleaning up old commented out code
+
 commit 92352c612f276e7fde3001d583355a68171d5ff3
 Author: Larry Smith Jr <mrlesmithjr@gmail.com>
 Date:   Mon Apr 6 11:20:38 2020 -0400
