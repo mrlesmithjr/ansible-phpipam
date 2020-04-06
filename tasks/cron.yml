@@ -26,8 +26,8 @@
     state: present
   become: true
   when: >
-        phpipam_define_cron_jobs and
-        not phpipam_db_cluster
+    phpipam_define_cron_jobs and
+    not phpipam_db_cluster
 
 - name: cron | adding cron job for discoveryCheck (Clustered DB)
   cron:
@@ -42,9 +42,9 @@
     state: present
   become: true
   when: >
-        phpipam_define_cron_jobs and
-        (inventory_hostname == phpipam_primary) and
-        phpipam_db_cluster
+    phpipam_define_cron_jobs and
+    (inventory_hostname == phpipam_primary) and
+    phpipam_db_cluster
 
 - name: cron | adding cron job for pingCheck
   cron:
@@ -115,8 +115,6 @@
     state: absent
   become: true
   when: not phpipam_define_cron_jobs
-
-
 # Removed for now as this may not be needed in new version
 #- name: cron | adding cron job for updating IP addresses (dnsCheck.php)
 #  cron:

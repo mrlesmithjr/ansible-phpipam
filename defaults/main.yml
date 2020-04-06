@@ -123,8 +123,4 @@ phpipam_upgrade: false
 # Defines the phpipam url to configure apache2 for if configured for url rewrite
 phpipam_url: "ipam.{{ phpipam_domain_name }}"
 
-# Define phpipam version
-# Depracated
-# phpipam_version: 1.4
-
 phpipam_web_root: /var/www/html

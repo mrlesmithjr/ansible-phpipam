@@ -1,3 +1,11 @@
+commit e2a41708aee08cde39ed6ec438ad6d331bd3c1f9
+Author: Larry Smith Jr <mrlesmithjr@gmail.com>
+Date:   Mon Apr 6 01:09:27 2020 -0400
+
+    Updated files, etc. after new structure
+    
+    This aligns to cookiecutter template
+
 commit a13e7fdc392fa18156a15dd2b5ae6e8ca8f07b4b
 Author: Larry Smith Jr <mrlesmithjr@gmail.com>
 Date:   Mon Apr 6 01:05:49 2020 -0400

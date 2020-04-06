@@ -46,8 +46,8 @@
     state: present
   become: true
   when: >
-        phpipam_pre_load_db and
-        not phpipam_db_cluster
+    phpipam_pre_load_db and
+    not phpipam_db_cluster
 
 - name: config_phpipam | creating phpipam db
   mysql_db:
@@ -55,9 +55,9 @@
     state: present
   become: true
   when: >
-        phpipam_pre_load_db and
-        phpipam_db_cluster and
-        (inventory_hostname == phpipam_primary)
+    phpipam_pre_load_db and
+    phpipam_db_cluster and
+    (inventory_hostname == phpipam_primary)
 
 - name: config_phpipam | creating phpipam db user
   mysql_user:
@@ -69,7 +69,7 @@
   become: true
   with_items: "{{ phpipam_db_allow_access_from_hosts }}"
   when: >
-        not phpipam_db_cluster
+    not phpipam_db_cluster
 
 - name: config_phpipam | creating phpipam db user
   mysql_user:
@@ -81,16 +81,16 @@
   become: true
   with_items: "{{ phpipam_db_allow_access_from_hosts }}"
   when: >
-        phpipam_db_cluster and
-        (inventory_hostname == phpipam_primary)
+    phpipam_db_cluster and
+    (inventory_hostname == phpipam_primary)
 
 - name: config_phpipam | Checking If DB Tables Exist
   command: >
-           mysql
-           -u {{ phpipam_db_user }}
-           --password={{ phpipam_db_pass }}
-           -h {{ phpipam_db_host }}
-           -e "show tables from {{ phpipam_db_name }};"
+    mysql
+    -u {{ phpipam_db_user }}
+    --password={{ phpipam_db_pass }}
+    -h {{ phpipam_db_host }}
+    -e "show tables from {{ phpipam_db_name }};"
   become: true
   register: phpipam_tables
   changed_when: false
@@ -103,9 +103,9 @@
     target: "{{ phpipam_install_dir }}/db/SCHEMA.sql"
   become: true
   when: >
-        phpipam_pre_load_db and
-        ('ipaddresses' not in phpipam_tables.stdout_lines) and
-        not phpipam_db_cluster
+    phpipam_pre_load_db and
+    ('ipaddresses' not in phpipam_tables.stdout_lines) and
+    not phpipam_db_cluster
 
 - name: config_phpipam | importing phpipam database
   mysql_db:
@@ -115,10 +115,10 @@
     target: "{{ phpipam_install_dir }}/db/SCHEMA.sql"
   become: true
   when: >
-        phpipam_pre_load_db and
-        ('ipaddresses' not in phpipam_tables.stdout_lines) and
-        phpipam_db_cluster and
-        (inventory_hostname == phpipam_primary)
+    phpipam_pre_load_db and
+    ('ipaddresses' not in phpipam_tables.stdout_lines) and
+    phpipam_db_cluster and
+    (inventory_hostname == phpipam_primary)
 
 # need to validate this is still needed as versions change
 # - name: config_phpipam | patching functions-network.php
@@ -201,7 +201,6 @@
   become: true
   # Only run when is not coming from git
   when: phpipam_install_from_git
-
 # - name: config_phpipam | Ensuring Permissions Are Correctly Set
 #   file:
 #     path: "{{ phpipam_install_dir }}-{{ phpipam_version }}"
