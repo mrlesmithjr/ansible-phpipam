@@ -6,7 +6,7 @@
     path: "/etc/cron.d/{{ item }}"
     state: absent
   become: true
-  with_items:
+  loop:
     # - phpipam_discoveryCheck
     - phpipam_dnsCheck
     - phpipam_fpingDiscoveryCheck
@@ -25,9 +25,9 @@
     cron_file: phpipam_discoveryCheck
     state: present
   become: true
-  when: >
-    phpipam_define_cron_jobs and
-    not phpipam_db_cluster
+  when:
+    - phpipam_define_cron_jobs|bool
+    - not phpipam_db_cluster|bool
 
 - name: cron | adding cron job for discoveryCheck (Clustered DB)
   cron:
@@ -41,10 +41,10 @@
     cron_file: phpipam_discoveryCheck
     state: present
   become: true
-  when: >
-    phpipam_define_cron_jobs and
-    (inventory_hostname == phpipam_primary) and
-    phpipam_db_cluster
+  when:
+    - phpipam_define_cron_jobs|bool
+    - inventory_hostname == phpipam_primary
+    - phpipam_db_cluster|bool
 
 - name: cron | adding cron job for pingCheck
   cron:
@@ -58,7 +58,7 @@
     cron_file: phpipam_pingCheck
     state: present
   become: true
-  when: phpipam_define_cron_jobs
+  when: phpipam_define_cron_jobs|bool
 
 - name: cron | adding cron job for resolveIPaddresses
   cron:
@@ -72,7 +72,7 @@
     cron_file: phpipam_resolveIPaddresses
     state: present
   become: true
-  when: phpipam_define_cron_jobs
+  when: phpipam_define_cron_jobs|bool
 
 - name: cron | removing cron job for discoveryCheck
   cron:
@@ -86,7 +86,7 @@
     cron_file: phpipam_discoveryCheck
     state: absent
   become: true
-  when: not phpipam_define_cron_jobs
+  when: not phpipam_define_cron_jobs|bool
 
 - name: cron | removing cron job for pingCheck
   cron:
@@ -100,7 +100,7 @@
     cron_file: phpipam_pingCheck
     state: absent
   become: true
-  when: not phpipam_define_cron_jobs
+  when: not phpipam_define_cron_jobs|bool
 
 - name: cron | removing cron job for resolveIPaddresses
   cron:
@@ -114,7 +114,7 @@
     cron_file: phpipam_resolveIPaddresses
     state: absent
   become: true
-  when: not phpipam_define_cron_jobs
+  when: not phpipam_define_cron_jobs|bool
 # Removed for now as this may not be needed in new version
 #- name: cron | adding cron job for updating IP addresses (dnsCheck.php)
 #  cron:

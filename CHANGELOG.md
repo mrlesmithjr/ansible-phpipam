@@ -1,3 +1,19 @@
+commit d743c128b3b361e841c5c529d476f6ae9030f759
+Author: Larry Smith Jr <mrlesmithjr@gmail.com>
+Date:   Mon Apr 6 09:30:14 2020 -0400
+
+    Pinned version to 1.4
+    
+    There are issues importing the DB schema from the latest version.
+
+commit 47cda890087c9e76a1f1d4915f0f85676b9e4572
+Author: Larry Smith Jr <mrlesmithjr@gmail.com>
+Date:   Mon Apr 6 01:27:34 2020 -0400
+
+    Initial commit to begin Molecule testing
+    
+    Not currently working. Having an issue loading DB dchema.
+
 commit e2a41708aee08cde39ed6ec438ad6d331bd3c1f9
 Author: Larry Smith Jr <mrlesmithjr@gmail.com>
 Date:   Mon Apr 6 01:09:27 2020 -0400

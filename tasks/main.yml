@@ -4,8 +4,8 @@
 
 - include_tasks: upgrade.yml
   when: >
-    phpipam_upgrade or
-    phpipam_install_from_git
+    phpipam_upgrade|bool or
+    phpipam_install_from_git|bool
 
 - include_tasks: debian.yml
   when: ansible_os_family == "Debian"
@@ -22,7 +22,7 @@
     - config_apache2
   when:
     - phpipam_prettify_links is defined
-    - phpipam_prettify_links
+    - phpipam_prettify_links|bool
 
 - include_tasks: config_phpipam.yml
   tags:
@@ -33,4 +33,4 @@
     - phpipam_db_backups
   when:
     - phpipam_enable_db_backups is defined
-    - phpipam_enable_db_backups
+    - phpipam_enable_db_backups|bool
