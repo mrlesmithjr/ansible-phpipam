@@ -10,7 +10,7 @@
     recursive: true
     update: "{{ phpipam_install_from_git_update }}"
   become: true
-  when: phpipam_install_from_git
+  when: phpipam_install_from_git|bool
 
 - name: config_phpipam | creating phpipam web config
   template:
@@ -25,8 +25,8 @@
   template:
     src: htaccess.j2
     dest: "{{ phpipam_install_dir + '/.htaccess' }}"
-    owner: root
-    group: root
+    owner: "{{ web_owner }}"
+    group: "{{ web_group }}"
     backup: yes
   become: true
 
@@ -34,30 +34,30 @@
   template:
     src: SCHEMA.sql.j2
     dest: "{{ phpipam_install_dir + '/db/SCHEMA.sql' }}"
-    owner: root
-    group: root
+    owner: "{{ web_owner }}"
+    group: "{{ web_group }}"
     backup: yes
   become: true
-  when: phpipam_custom_db_schema
+  when: phpipam_custom_db_schema|bool
 
 - name: config_phpipam | creating phpipam db
   mysql_db:
     name: "{{ phpipam_db_name }}"
     state: present
   become: true
-  when: >
-        phpipam_pre_load_db and
-        not phpipam_db_cluster
+  when:
+    - phpipam_pre_load_db|bool
+    - not phpipam_db_cluster|bool
 
 - name: config_phpipam | creating phpipam db
   mysql_db:
     name: "{{ phpipam_db_name }}"
     state: present
   become: true
-  when: >
-        phpipam_pre_load_db and
-        phpipam_db_cluster and
-        (inventory_hostname == phpipam_primary)
+  when:
+    - phpipam_pre_load_db|bool
+    - phpipam_db_cluster|bool
+    - inventory_hostname == phpipam_primary
 
 - name: config_phpipam | creating phpipam db user
   mysql_user:
@@ -67,9 +67,8 @@
     host: "{{ item }}"
     state: present
   become: true
-  with_items: "{{ phpipam_db_allow_access_from_hosts }}"
-  when: >
-        not phpipam_db_cluster
+  loop: "{{ phpipam_db_allow_access_from_hosts }}"
+  when: not phpipam_db_cluster|bool
 
 - name: config_phpipam | creating phpipam db user
   mysql_user:
@@ -79,22 +78,22 @@
     host: "{{ item }}"
     state: present
   become: true
-  with_items: "{{ phpipam_db_allow_access_from_hosts }}"
-  when: >
-        phpipam_db_cluster and
-        (inventory_hostname == phpipam_primary)
+  loop: "{{ phpipam_db_allow_access_from_hosts }}"
+  when:
+    - phpipam_db_cluster|bool
+    - inventory_hostname == phpipam_primary
 
 - name: config_phpipam | Checking If DB Tables Exist
   command: >
-           mysql
-           -u {{ phpipam_db_user }}
-           --password={{ phpipam_db_pass }}
-           -h {{ phpipam_db_host }}
-           -e "show tables from {{ phpipam_db_name }};"
+    mysql
+    -u {{ phpipam_db_user }}
+    --password={{ phpipam_db_pass }}
+    -h {{ phpipam_db_host }}
+    -e "show tables from {{ phpipam_db_name }};"
   become: true
   register: phpipam_tables
   changed_when: false
-  when: phpipam_pre_load_db
+  when: phpipam_pre_load_db|bool
 
 - name: config_phpipam | importing phpipam database
   mysql_db:
@@ -102,94 +101,22 @@
     state: import
     target: "{{ phpipam_install_dir }}/db/SCHEMA.sql"
   become: true
-  when: >
-        phpipam_pre_load_db and
-        ('ipaddresses' not in phpipam_tables.stdout_lines) and
-        not phpipam_db_cluster
+  when:
+    - phpipam_pre_load_db|bool
+    - ('ipaddresses' not in phpipam_tables.stdout_lines)
+    - not phpipam_db_cluster|bool
 
 - name: config_phpipam | importing phpipam database
   mysql_db:
     name: "{{ phpipam_db_name }}"
     state: import
-    # target: "/tmp/phpipam_schema.sql"
     target: "{{ phpipam_install_dir }}/db/SCHEMA.sql"
   become: true
-  when: >
-        phpipam_pre_load_db and
-        ('ipaddresses' not in phpipam_tables.stdout_lines) and
-        phpipam_db_cluster and
-        (inventory_hostname == phpipam_primary)
-
-# need to validate this is still needed as versions change
-# - name: config_phpipam | patching functions-network.php
-#   template:
-#     src: "functions/functions-network.php.j2"
-#     dest: "{{ phpipam_install_dir }}/functions/functions-network.php"
-#     owner: "{{ web_owner }}"
-#     group: "{{ web_group }}"
-#   become: true
-#   when: >
-#         phpipam_patch_discovery is defined and
-#         phpipam_patch_discovery
-
-# need to validate this is still needed as versions change
-# - name: config_phpipam | patching email
-#   template:
-#     src: "functions/functions-mail.php.j2"
-#     dest: "{{ phpipam_install_dir }}/functions/functions-mail.php"
-#     owner: "{{ web_owner }}"
-#     group: "{{ web_group }}"
-#   become: true
-#   when: >
-#         phpipam_patch_email is defined and
-#         phpipam_patch_email
-
-# need to validate this is still needed as versions change
-# - name: config_phpipam | patching email
-#   template:
-#     src: "site/admin/mailSettingsTestMail.php.j2"
-#     dest: "{{ phpipam_install_dir }}/site/admin/mailSettingsTestMail.php"
-#     owner: "{{ web_owner }}"
-#     group: "{{ web_group }}"
-#   become: true
-#   when: >
-#         phpipam_patch_email is defined and
-#         phpipam_patch_email
-
-# need to validate this is still needed as versions change
-# - name: config_phpipam | adding dnsCheck.php script
-#   template:
-#     src: "functions/scripts/dnsCheck.php.j2"
-#     dest: "{{ phpipam_install_dir }}/functions/scripts/dnsCheck.php"
-#     owner: "{{ web_owner }}"
-#     group: "{{ web_group }}"
-#     mode: 0755
-#   become: true
-#   when: >
-#         phpipam_patch_discovery is defined and
-#         phpipam_patch_discovery
-
-# need to validate this is still needed as versions change
-# - name: config_phpipam | checking for fping path
-#   command: which fping
-#   register: fping_path
-#   changed_when: false
-
-# need to validate this is still needed as versions change
-# - name: config_phpipam | adding fpingDiscovery script(s)
-#   template:
-#     src: "functions/scripts/{{ item }}.j2"
-#     dest: "{{ phpipam_install_dir }}/functions/scripts/{{ item }}"
-#     owner: "{{ web_owner }}"
-#     group: "{{ web_group }}"
-#     mode: 0755
-#   become: true
-#   with_items:
-#     - fpingDiscoveryCheck.php
-#     - fpingThread.php
-#   when: >
-#         phpipam_patch_discovery is defined and
-#         phpipam_patch_discovery
+  when:
+    - phpipam_pre_load_db|bool
+    - ('ipaddresses' not in phpipam_tables.stdout_lines)
+    - phpipam_db_cluster|bool
+    - inventory_hostname == phpipam_primary
 
 - name: config_phpipam | Ensuring Permissions Are Correctly Set
   file:
@@ -199,16 +126,4 @@
     state: "directory"
     recurse: yes
   become: true
-  # Only run when is not coming from git
-  when: phpipam_install_from_git
-
-# - name: config_phpipam | Ensuring Permissions Are Correctly Set
-#   file:
-#     path: "{{ phpipam_install_dir }}-{{ phpipam_version }}"
-#     group: "{{ web_group }}"
-#     owner: "{{ web_owner }}"
-#     state: directory
-#     recurse: yes
-#   become: true
-#   # Only run if some version change was done.
-#   when: extract_phpipam.changed and not phpipam_install_from_git
+  when: phpipam_install_from_git|bool

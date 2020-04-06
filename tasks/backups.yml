@@ -8,7 +8,7 @@
 - name: backups | creating backup cron job
   cron:
     name: phpipam DB Backups
-    job: '/usr/bin/mysqldump -u {{ phpipam_db_user }} -p{{ phpipam_db_pass }} {{ phpipam_db_name }} > {{ phpipam_db_backup_dir }}/{{ phpipam_db_backup_name_prefix }}_$(date +"\%y\%m\%d").db'
+    job: '/usr/bin/mysqldump -u {{ phpipam_db_user }} -p{{ phpipam_db_pass }} {{ phpipam_db_name }} > {{ phpipam_db_backup_dir }}/{{ phpipam_db_backup_name_prefix }}_$(date +"\%y\%m\%d").db' # noqa 204
     special_time: daily
     user: root
     cron_file: phpipam_db_backups

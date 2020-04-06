@@ -20,18 +20,9 @@
     - restart apache2
   when: >
     (ansible_distribution == "Debian" and
-    ansible_distribution_major_version <= "7") or
+    ansible_distribution_version is version('7', '<=')) or
     (ansible_distribution == "Ubuntu" and
     ansible_distribution_release != "trusty")
-
-- name: debian | Installing Git
-  apt:
-    name: git
-    state: present
-  become: true
-  register: result
-  until: result is succeeded
-  when: phpipam_install_from_git
 
 - name: debian | enabling php mcrypt module
   command: "{{ phpenmod_command }} mcrypt"
@@ -39,10 +30,10 @@
   changed_when: false
   when: >
     (ansible_distribution == "Ubuntu" and
-    ansible_distribution_version >= '16.04' and
-    ansible_distribution_version < '18.04') or
+    ansible_distribution_version is version('16.04', '>=') and
+    ansible_distribution_version is version ('18.04', '<')) or
     (ansible_distribution == "Debian" and
-    ansible_distribution_major_version >= '9')
+    ansible_distribution_version is version('9', '>='))
 
 - name: debian | enabling apache mod_rewrite
   apache2_module:
@@ -50,4 +41,4 @@
     state: present
   become: true
   notify: restart apache2
-  when: phpipam_prettify_links
+  when: phpipam_prettify_links|bool

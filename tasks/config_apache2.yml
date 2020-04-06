@@ -26,7 +26,7 @@
 - name: config_apache2 | enabling php mod extensions
   command: "{{ phpenmod_command }} {{ item }}"
   become: true
-  with_items:
+  loop:
     - json
   when: ansible_os_family == "Debian"
   changed_when: false
