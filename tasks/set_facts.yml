@@ -50,7 +50,7 @@
     phpipam_debian_packages:
       - fping
       - git
-      - "libapache2-mod-php{{ php_ver }}"
+      - libapache2-mod-php
       - python-mysqldb
       - "php{{ php_ver }}"
       - "php{{ php_ver }}-cli"
@@ -75,7 +75,7 @@
     phpipam_debian_packages:
       - fping
       - git
-      - "libapache2-mod-php{{ php_ver }}"
+      - libapache2-mod-php
       - python-mysqldb
       - "php{{ php_ver }}"
       - "php{{ php_ver }}-cli"

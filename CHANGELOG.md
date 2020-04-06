@@ -1,3 +1,9 @@
+commit c19dd52ab52f4d67b67856bbc1fa139be2c94b48
+Author: Larry Smith Jr <mrlesmithjr@gmail.com>
+Date:   Mon Apr 6 10:28:42 2020 -0400
+
+    Fixing idempotency issues
+
 commit 57fd1c94f5849a87770b223c77f7704e95c207f7
 Author: Larry Smith Jr <mrlesmithjr@gmail.com>
 Date:   Mon Apr 6 10:28:28 2020 -0400
