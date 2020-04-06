@@ -24,15 +24,6 @@
     (ansible_distribution == "Ubuntu" and
     ansible_distribution_release != "trusty")
 
-- name: debian | Installing Git
-  apt:
-    name: git
-    state: present
-  become: true
-  register: result
-  until: result is succeeded
-  when: phpipam_install_from_git|bool
-
 - name: debian | enabling php mcrypt module
   command: "{{ phpenmod_command }} mcrypt"
   become: true
