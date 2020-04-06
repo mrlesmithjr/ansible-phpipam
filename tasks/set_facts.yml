@@ -49,6 +49,7 @@
   set_fact:
     phpipam_debian_packages:
       - fping
+      - git
       - "libapache2-mod-php{{ php_ver }}"
       - python-mysqldb
       - "php{{ php_ver }}"
@@ -73,6 +74,7 @@
   set_fact:
     phpipam_debian_packages:
       - fping
+      - git
       - "libapache2-mod-php{{ php_ver }}"
       - python-mysqldb
       - "php{{ php_ver }}"
@@ -94,6 +96,7 @@
     phpipam_redhat_packages:
       - anacron
       - fping
+      - git
       - MySQL-python
       - php
       - php-cli

@@ -1,3 +1,9 @@
+commit 2aee1d9e0a5984cb6318df1081c3fd5763b5922d
+Author: Larry Smith Jr <mrlesmithjr@gmail.com>
+Date:   Mon Apr 6 09:30:56 2020 -0400
+
+    Cleaned up code structure
+
 commit d743c128b3b361e841c5c529d476f6ae9030f759
 Author: Larry Smith Jr <mrlesmithjr@gmail.com>
 Date:   Mon Apr 6 09:30:14 2020 -0400
