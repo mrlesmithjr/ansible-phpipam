@@ -1,3 +1,15 @@
+commit 57fd1c94f5849a87770b223c77f7704e95c207f7
+Author: Larry Smith Jr <mrlesmithjr@gmail.com>
+Date:   Mon Apr 6 10:28:28 2020 -0400
+
+    Git is now a pre-req so it is already installed
+
+commit 257aee3f575be03cd2c382d6b6b4c90f4f38b313
+Author: Larry Smith Jr <mrlesmithjr@gmail.com>
+Date:   Mon Apr 6 10:17:47 2020 -0400
+
+    Fixing idempotency issues
+
 commit 596fbbdfed05094dc6882f5ba6cf758aeacd59bd
 Author: Larry Smith Jr <mrlesmithjr@gmail.com>
 Date:   Mon Apr 6 10:09:41 2020 -0400

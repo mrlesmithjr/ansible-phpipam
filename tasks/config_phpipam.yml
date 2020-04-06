@@ -25,8 +25,8 @@
   template:
     src: htaccess.j2
     dest: "{{ phpipam_install_dir + '/.htaccess' }}"
-    owner: root
-    group: root
+    owner: "{{ web_owner }}"
+    group: "{{ web_group }}"
     backup: yes
   become: true
 
@@ -34,8 +34,8 @@
   template:
     src: SCHEMA.sql.j2
     dest: "{{ phpipam_install_dir + '/db/SCHEMA.sql' }}"
-    owner: root
-    group: root
+    owner: "{{ web_owner }}"
+    group: "{{ web_group }}"
     backup: yes
   become: true
   when: phpipam_custom_db_schema|bool
