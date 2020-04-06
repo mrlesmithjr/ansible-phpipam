@@ -68,7 +68,7 @@ phpipam_install_from_git_update: false
 # 419aba5 Suppressed KEA arrors if cannot read leases file + shown error #777
 # phpipam_install_git_version: '9cbf625'
 # Change to HEAD to always checkout the latest
-phpipam_install_git_version: HEAD
+phpipam_install_git_version: 1.4
 
 # Defines if current discovery functionality should be patched
 phpipam_patch_discovery: false
