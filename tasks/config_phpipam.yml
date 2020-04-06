@@ -110,7 +110,6 @@
   mysql_db:
     name: "{{ phpipam_db_name }}"
     state: import
-    # target: "/tmp/phpipam_schema.sql"
     target: "{{ phpipam_install_dir }}/db/SCHEMA.sql"
   become: true
   when:
@@ -118,77 +117,6 @@
     - ('ipaddresses' not in phpipam_tables.stdout_lines)
     - phpipam_db_cluster|bool
     - inventory_hostname == phpipam_primary
-
-# need to validate this is still needed as versions change
-# - name: config_phpipam | patching functions-network.php
-#   template:
-#     src: "functions/functions-network.php.j2"
-#     dest: "{{ phpipam_install_dir }}/functions/functions-network.php"
-#     owner: "{{ web_owner }}"
-#     group: "{{ web_group }}"
-#   become: true
-#   when: >
-#         phpipam_patch_discovery is defined and
-#         phpipam_patch_discovery
-
-# need to validate this is still needed as versions change
-# - name: config_phpipam | patching email
-#   template:
-#     src: "functions/functions-mail.php.j2"
-#     dest: "{{ phpipam_install_dir }}/functions/functions-mail.php"
-#     owner: "{{ web_owner }}"
-#     group: "{{ web_group }}"
-#   become: true
-#   when: >
-#         phpipam_patch_email is defined and
-#         phpipam_patch_email
-
-# need to validate this is still needed as versions change
-# - name: config_phpipam | patching email
-#   template:
-#     src: "site/admin/mailSettingsTestMail.php.j2"
-#     dest: "{{ phpipam_install_dir }}/site/admin/mailSettingsTestMail.php"
-#     owner: "{{ web_owner }}"
-#     group: "{{ web_group }}"
-#   become: true
-#   when: >
-#         phpipam_patch_email is defined and
-#         phpipam_patch_email
-
-# need to validate this is still needed as versions change
-# - name: config_phpipam | adding dnsCheck.php script
-#   template:
-#     src: "functions/scripts/dnsCheck.php.j2"
-#     dest: "{{ phpipam_install_dir }}/functions/scripts/dnsCheck.php"
-#     owner: "{{ web_owner }}"
-#     group: "{{ web_group }}"
-#     mode: 0755
-#   become: true
-#   when: >
-#         phpipam_patch_discovery is defined and
-#         phpipam_patch_discovery
-
-# need to validate this is still needed as versions change
-# - name: config_phpipam | checking for fping path
-#   command: which fping
-#   register: fping_path
-#   changed_when: false
-
-# need to validate this is still needed as versions change
-# - name: config_phpipam | adding fpingDiscovery script(s)
-#   template:
-#     src: "functions/scripts/{{ item }}.j2"
-#     dest: "{{ phpipam_install_dir }}/functions/scripts/{{ item }}"
-#     owner: "{{ web_owner }}"
-#     group: "{{ web_group }}"
-#     mode: 0755
-#   become: true
-#   with_items:
-#     - fpingDiscoveryCheck.php
-#     - fpingThread.php
-#   when: >
-#         phpipam_patch_discovery is defined and
-#         phpipam_patch_discovery
 
 - name: config_phpipam | Ensuring Permissions Are Correctly Set
   file:
@@ -198,15 +126,4 @@
     state: "directory"
     recurse: yes
   become: true
-  # Only run when is not coming from git
   when: phpipam_install_from_git|bool
-# - name: config_phpipam | Ensuring Permissions Are Correctly Set
-#   file:
-#     path: "{{ phpipam_install_dir }}-{{ phpipam_version }}"
-#     group: "{{ web_group }}"
-#     owner: "{{ web_owner }}"
-#     state: directory
-#     recurse: yes
-#   become: true
-#   # Only run if some version change was done.
-#   when: extract_phpipam.changed and not phpipam_install_from_git

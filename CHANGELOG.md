@@ -1,3 +1,15 @@
+commit 92352c612f276e7fde3001d583355a68171d5ff3
+Author: Larry Smith Jr <mrlesmithjr@gmail.com>
+Date:   Mon Apr 6 11:20:38 2020 -0400
+
+    Fixing php packages for Debian10
+
+commit 47ce4199c2fcb3dbf2504dba011ee79f64d608bb
+Author: Larry Smith Jr <mrlesmithjr@gmail.com>
+Date:   Mon Apr 6 10:46:57 2020 -0400
+
+    Fixing libapache2-mod-php package for Debian
+
 commit c19dd52ab52f4d67b67856bbc1fa139be2c94b48
 Author: Larry Smith Jr <mrlesmithjr@gmail.com>
 Date:   Mon Apr 6 10:28:42 2020 -0400

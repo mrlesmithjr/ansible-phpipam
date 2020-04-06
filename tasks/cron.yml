@@ -7,10 +7,8 @@
     state: absent
   become: true
   loop:
-    # - phpipam_discoveryCheck
     - phpipam_dnsCheck
     - phpipam_fpingDiscoveryCheck
-    # - phpipam_pingCheck
     - phpipam_resolveIP
 
 - name: cron | adding cron job for discoveryCheck (Non-Clustered DB)
@@ -115,33 +113,3 @@
     state: absent
   become: true
   when: not phpipam_define_cron_jobs|bool
-# Removed for now as this may not be needed in new version
-#- name: cron | adding cron job for updating IP addresses (dnsCheck.php)
-#  cron:
-#    name: "phpipam dnsCheck"
-#    job: "/usr/bin/php {{ phpipam_install_dir }}/functions/scripts/dnsCheck.php"
-#    minute: "0"
-#    hour: "*"
-#    day: "*"
-#    month: "*"
-#    user: "{{ web_owner }}"
-#    cron_file: "phpipam_dnsCheck"
-#    state: present
-#  when: phpipam_define_cron_jobs
-
-# Removed for now as this may not be needed in new version
-#- name: cron | adding cron job for fpingDiscoveryCheck
-#  cron:
-#    name: "phpipam fpingDiscoveryCheck"
-#    job: "/usr/bin/php {{ phpipam_install_dir }}/functions/scripts/fpingDiscoveryCheck.php"
-#    minute: "*/15"
-#    hour: "*"
-#    day: "*"
-#    month: "*"
-#    user: "{{ web_owner }}"
-#    cron_file: "phpipam_fpingDiscoveryCheck"
-#    state: present
-#  when: >
-#        phpipam_define_cron_jobs and
-#        phpipam_primary and
-#        phpipam_db_cluster
