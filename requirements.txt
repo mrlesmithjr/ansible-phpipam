@@ -1,7 +1,8 @@
 # Python requirements for executing
-ansible
-ansible-lint
-docker
+ansible==11.9.0
+ansible-lint==25.9.1
+docker==7.2.0
 flake8
-molecule
-testinfra
+molecule==25.6.0
+molecule-plugins[docker]==25.8.12
+yamllint==1.38.0

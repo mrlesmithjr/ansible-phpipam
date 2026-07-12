@@ -17,14 +17,12 @@ jobs:
     strategy:
       max-parallel: 4
       matrix:
-        python-version: [3.5, 3.6, 3.7]
+        python-version: ["3.11"]
 
     steps:
-      - uses: actions/checkout@v1
-        with:
-          path: ansible-phpipam
+      - uses: actions/checkout@v4
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
@@ -36,11 +34,27 @@ jobs:
           molecule --version
       - name: Test with molecule
         run: |
-          molecule test --scenario-name centos7
+          # EOL scenarios kept for reference but disabled in CI matrix. centos7/8,
+          # debian8/9/10 and fedora have dead package mirrors; ubuntu1604/1804 and
+          # debian10 (buster, python3 3.7.3) fall below ansible-core 2.18+'s actual
+          # managed-node floor of Python 3.8 (not 3.7 as commonly assumed) -- verified
+          # directly, ansible.legacy.setup refuses to run on 3.7.3.
+          # molecule test --scenario-name centos7
           # molecule test --scenario-name centos8
           # molecule test --scenario-name debian8
-          molecule test --scenario-name debian9
-          molecule test --scenario-name debian10
+          # molecule test --scenario-name debian9
+          # molecule test --scenario-name debian10
           # molecule test --scenario-name fedora
-          molecule test --scenario-name ubuntu1604
-          molecule test --scenario-name ubuntu1804
+          # molecule test --scenario-name ubuntu1604
+          # molecule test --scenario-name ubuntu1804
+          #
+          # molecule/ubuntu2204 is the fleet-standard scenario and its Docker/cgroups/apt
+          # mechanics are verified working. Molecule convergence currently still fails on
+          # it (and on every other python>=3.8-capable Debian/Ubuntu release checked:
+          # 20.04, 22.04, 11, 12) due to a separate, pre-existing role bug tracked in
+          # https://github.com/mrlesmithjr/ansible-phpipam/issues -- tasks/set_facts.yml
+          # hardcodes php_ver: 7.2 for any Ubuntu >= 18.04 (no jammy-or-later case), and
+          # php7.2 packages do not exist on any currently-supported distro release. This
+          # needs a deliberate PHP-version-detection redesign, not a CI/scenario fix, so
+          # it is left as a real (expected) CI failure rather than silently masked here.
+          molecule test --scenario-name ubuntu2204

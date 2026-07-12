@@ -10,4 +10,4 @@
         name: ansible-mysql
     - name: Include ansible-phpipam
       include_role:
-        name: ansible-phpipam
+        name: mrlesmithjr.phpipam
